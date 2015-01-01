@@ -21,19 +21,37 @@ class ProductoController extends AbstractActionController
     public function nuevoAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
-            $ProductoForm = new ProductoForm();
+
+            //Instanciamos nuestra CategoryQuery
+            $categoryQuery = \CategoryQuery::create()->find();
+            $categoriesArray = array();
+            foreach($categoryQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME) as $categoryEntity){
+                $categoriesArray[$categoryEntity['idcategory']] = $categoryEntity['category_name'];
+            }
+            $ProductoForm = new ProductoForm($categoriesArray);
             $ProductoForm->get('submit')->setValue('Nuevo');
 
             $request = $this->getRequest();
             if ($request->isPost()) {
 
+                // Almacenamos en una variable de tipo array los datos que nos mandan por post (no almacena archivos)
+                $nonFile = $request->getPost()->toArray();
+                // Obtenemos los detalles del archivo
+                $File = $this->params()->fromFiles('product_img');
+
+                // Creamos un array conjuntando los datos del post y el archivo
+                $data = array_merge(
+                    $nonFile, //POST
+                    array('product_img'=> $File['name']) //FILE...
+                );
+
                 $ProductoFilter = new ProductoFilter();
                 $ProductoForm->setInputFilter($ProductoFilter->getInputFilter());
-                $ProductoForm->setData($request->getPost());
+                $ProductoForm->setData($data);
 
-                foreach($request->getPost() as $key => $value){
+                foreach($data as $key => $value){
 
                     if($key == 'idcategory'){
                         $categoryQuery = \CategoryQuery::create()->filterByIdcategory($value)->findOne();
@@ -48,17 +66,45 @@ class ProductoController extends AbstractActionController
                 }
 
                 if ($ProductoForm->isValid()) {
+
+                    $size = new \Zend\Validator\File\Size(array('max'=>2000000)); //maximo bytes filesize
+                    $adapter = new \Zend\File\Transfer\Adapter\Http();
+                    $adapter->setValidators(array($size), $File['name']);
+
+                    if (!$adapter->isValid()){
+                        $dataError = $adapter->getMessages();
+                        $error = array();
+                        foreach($dataError as $key=>$row)
+                        {
+                            $error[] = $row;
+                        } //seteamos formElementErrors
+                        $ProductoForm->setMessages(array('product_img'=>$error ));
+                        return array('productoForm' => $ProductoForm);
+                    } else {
+                        $adapter->setDestination(IMG_PRODUCTOS);
+                        if ($adapter->receive($File['name'])) {
+                            // Guardamos la imagen en IMG_PRODUCTOS
+                        }
+                    }
+
                     $Producto = new Product();
                     foreach($ProductoForm->getData() as $ProductoKey => $ProductoValue){
                         if($ProductoKey != 'idproduct' && $ProductoKey != 'submit'){
-                            $Producto->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
+                            if($ProductoKey == 'product_img'){
+                                $Producto->setProductImg('/img/products/'.$ProductoValue);
+                            }else{
+                                $Producto->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
+                            }
                         }
                     }
                     $Producto->save();
                     return $this->redirect()->toRoute('panel-producto');
                 }
             }
-            return array('productoForm' => $ProductoForm);
+
+            return array(
+                'productoForm' => $ProductoForm,
+            );
         }else{
             $this->layout('layout/layoutAuth');
             return $this->redirect()->toRoute('panel-login', array('action' => 'login'));
@@ -68,37 +114,17 @@ class ProductoController extends AbstractActionController
     public function listarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
-            // Instanciamos nuestro formulario productoForm
-            $productoForm = new ProductoForm();
-
-            // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
-            $allowedColumns = array();
-            foreach ($productoForm->getElements() as $key=>$value){
-                array_push($allowedColumns, $key);
-            }
-            //Verificamos que si nos envian filtros  si no ponemos valores por default
-            $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 100;
-            if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
-            $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
-            $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idproduct';
-            $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
-
             $productoQuery = new ProductQuery();
 
-            //Order y Dir
-            if($order !=null || $dir !=null){
-                $productoQuery->orderBy($order, $dir);
-            }
-
             // Obtenemos el filtrado por medio del idcompany del recurso.
-            $result = $productoQuery->paginate($page,$limit);
+            $result = $productoQuery->find();
 
-            $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+            //$data = $result->toArray(null,false,BasePeer::TYPE_FIELDNAME);
 
             return new ViewModel(array(
-                'productos' => $data,
+                'productos' => $result,
             ));
         }else{
             $this->layout('layout/layoutAuth');
@@ -109,7 +135,7 @@ class ProductoController extends AbstractActionController
     public function editarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -128,14 +154,31 @@ class ProductoController extends AbstractActionController
                 //Instanciamos nuestra productoQuery
                 $productoPKQuery = $productoQuery->findPk($id);
                 $productoQueryArray = $productoPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-                $ProductoForm = new ProductoForm();
+                //Instanciamos nuestra CategoryQuery
+                $categoryQuery = \CategoryQuery::create()->find();
+                $categoriesArray = array();
+                foreach($categoryQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME) as $categoryEntity){
+                    $categoriesArray[$categoryEntity['idcategory']] = $categoryEntity['category_name'];
+                }
+                $ProductoForm = new ProductoForm($categoriesArray);
                 $ElementsProductoForm = $ProductoForm->getElements();
 
                 if ($request->isPost()){
+                    // Almacenamos en una variable de tipo array los datos que nos mandan por post (no almacena archivos)
+                    $nonFile = $request->getPost()->toArray();
+                    // Obtenemos los detalles del archivo
+                    $File = $this->params()->fromFiles('product_img');
+
+                    // Creamos un array conjuntando los datos del post y el archivo
+                    $data = array_merge(
+                        $nonFile, //POST
+                        array('product_img'=> $File['name']) //FILE...
+                    );
+
                     $ProductoArray = array();
                     foreach($ElementsProductoForm as $key=>$value){
                         if($key != 'submit'){
-                            $ProductoArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $productoQueryArray[$key];
+                            $ProductoArray[$key] = $data[$key] ? $data[$key] : $productoQueryArray[$key];
                         }
                     }
                 }else{
@@ -148,10 +191,51 @@ class ProductoController extends AbstractActionController
                 $ProductoFilter = new ProductoFilter();
                 $ProductoForm->setInputFilter($ProductoFilter->getInputFilter());
                 $ProductoForm->setData($ProductoArray);
+                $ProductoForm->getInputFilter()->get('product_img')->setRequired('false');
 
                 if ($ProductoForm->isValid()) {
+
+                    if($File['name'] != null){
+                        $size = new \Zend\Validator\File\Size(array('max'=>2000000)); //maximo bytes filesize
+                        $adapter = new \Zend\File\Transfer\Adapter\Http();
+                        $adapter->setValidators(array($size), $File['name']);
+
+                        if (!$adapter->isValid()){
+                            $dataError = $adapter->getMessages();
+                            $error = array();
+                            foreach($dataError as $key=>$row)
+                            {
+                                $error[] = $row;
+                            } //seteamos formElementErrors
+                            $ProductoForm->setMessages(array('product_img'=>$error ));
+                            return array(
+                                'id' => $id,
+                                'productoForm' => $ProductoForm,
+                            );
+                        } else {
+                            $adapter->setDestination(IMG_PRODUCTOS);
+                            if ($adapter->receive($File['name'])) {
+                                // Guardamos la imagen en IMG_PRODUCTOS
+                            }
+                            if($productoPKQuery->getProductImg() != "/img/products/".$File['name']){
+                                foreach($ProductoForm->getData() as $ProductoKey => $ProductoValue){
+                                    if($ProductoKey != 'submit'){
+                                        if($ProductoKey == 'product_img'){// Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
+                                            $dirFile = DELETE_IMG.$productoPKQuery->getProductImg();
+                                            if(unlink($dirFile)){//El archivo fue borrado.
+                                                $productoPKQuery->setProductImg('/img/products/'.$ProductoValue);
+                                            }else{
+                                                $productoPKQuery->setProductImg('/img/products/'.$ProductoValue);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     foreach($ProductoForm->getData() as $ProductoKey => $ProductoValue){
-                        if($ProductoKey != 'submit'){
+                        if($ProductoKey != 'submit' && $ProductoKey != 'product_img'){
                             $productoPKQuery->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
                         }
                     }
@@ -160,19 +244,6 @@ class ProductoController extends AbstractActionController
                         $productoPKQuery->save();
                         return $this->redirect()->toRoute('panel-producto');
                     }
-                }else{
-                    $messageArray = array();
-                    foreach ($ProductoForm->getMessages() as $key => $value){
-                        foreach($value as $val){
-                            //Obtenemos el valor de la columna con error
-                            $message = $key.' '.$val;
-                            array_push($messageArray, $message);
-                        }
-                    }
-
-                    return new ViewModel(array(
-                        'Error' => $messageArray,
-                    ));
                 }
             }
 
@@ -189,7 +260,7 @@ class ProductoController extends AbstractActionController
     public function eliminarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -200,19 +271,26 @@ class ProductoController extends AbstractActionController
             if ($request->isPost()) {
                 $del = $request->getPost('del', 'No');
 
-                if ($del == 'Yes') {
+                if ($del == 'Si') {
                     $id = (int) $request->getPost('id');
-                    ProductQuery::create()->filterByIdproduct($id)->delete();
+                    $ProductQuery = ProductQuery::create()->filterByIdproduct($id)->findOne();
+                    // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
+                    $dirFile = DELETE_IMG.$ProductQuery->getProductImg();
+                    if(unlink($dirFile)){//El archivo fue borrado.
+                        ProductQuery::create()->filterByIdproduct($id)->delete();
+                    }else{
+                        ProductQuery::create()->filterByIdproduct($id)->delete();
+                    }
                 }
 
-                // Redireccionamos a los provedores
+                // Redireccionamos a los producto
                 return $this->redirect()->toRoute('panel-producto');
             }
 
-            $provedorEntity = ProductQuery::create()->filterByIdproduct($id)->findOne();
+            $productoEntity = ProductQuery::create()->filterByIdproduct($id)->findOne();
             return array(
                 'id'    => $id,
-                'producto' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
+                'producto' => $productoEntity
             );
         }else{
             $this->layout('layout/layoutAuth');

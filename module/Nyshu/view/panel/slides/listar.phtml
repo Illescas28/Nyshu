@@ -1,0 +1,36 @@
+<?php
+
+$title = 'Mis slides';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('panel-slides', array('action'=>'nuevo'));?>">Nuevo slides</a>
+</p>
+
+<table class="table striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Imagen Url</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($slides as $slide) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($slide['slides_title']);?></td>
+                <td><?php echo $this->escapeHtml($slide['slides_description']);?></td>
+                <td><?php echo $this->escapeHtml($slide['slides_img']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-slides',
+                        array('action'=>'editar', 'id' => $slide['idslides']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-slides',
+                        array('action'=>'eliminar', 'id' => $slide['idslides']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

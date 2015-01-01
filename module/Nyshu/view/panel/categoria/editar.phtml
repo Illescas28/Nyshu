@@ -4,23 +4,23 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 <?php
-    $productoForm = $this->categoriaForm;
-    $productoForm->setAttribute('action', $this->url(
+    $form = $this->categoriaForm;
+    $form->setAttribute('action', $this->url(
         'panel-categoria',
         array(
             'action' => 'editar',
             'id'     => $this->id,
         )
     ));
-    $productoForm->prepare();
+    $form->prepare();
 
-    echo $this->form()->openTag($productoForm); ?>
+    echo $this->form()->openTag($form); ?>
     <div class="row">
         <div class="input-field col s6">
             <i class="mdi-social-cake prefix"></i>
-            <?php  echo $this->formText($productoForm->get('category_name')); ?>
-            <?php  echo $this->formLabel($productoForm->get('category_name'));
-            $showError=$this->formElementErrors($productoForm->get('category_name'));
+            <?php  echo $this->formText($form->get('category_name')); ?>
+            <?php  echo $this->formLabel($form->get('category_name'));
+            $showError=$this->formElementErrors($form->get('category_name'));
             if(!empty($showError)):
                 ?>
                 <div class="center-align col" style="color: #e57373">
@@ -33,15 +33,18 @@ $this->headTitle($title);
                 </div>
             <?php  endif;?>
         </div>
+        <div class="input-field col s6">
+            <?php  echo $this->formSelect($form->get('category_icon')); ?>
+        </div>
     </div>
     <div class="input-field col s6">
-        <?php  echo $this->formButton($productoForm->get('submit')); ?>
+        <?php  echo $this->formButton($form->get('submit')); ?>
     </div>
     <?php
     echo $this->form()->closeTag();
 ?>
 <script>
-$(document).ready(function() {
-    $('select').material_select();
-});
+    $(document).ready(function() {
+        $('select').material_select();
+    });
 </script>

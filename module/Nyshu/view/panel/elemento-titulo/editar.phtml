@@ -1,0 +1,51 @@
+<?php
+$title = 'Editar elemento titulo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+    $form = $this->ElementoTituloForm;
+    $form->setAttribute('action', $this->url(
+        'panel-element-title',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    ?>
+
+    <div class="row">
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-editor-border-color prefix"></i>
+            <?php  echo $this->formText($form->get('elementtitle_title')); ?>
+            <?php  echo $this->formLabel($form->get('elementtitle_title'));
+            $showError=$this->formElementErrors($form->get('elementtitle_title'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="input-field col s6">
+        <?php  echo $this->formButton($form->get('submit')); ?>
+    </div>
+    <?php
+    echo $this->form()->closeTag();
+?>
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

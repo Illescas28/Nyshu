@@ -4,16 +4,42 @@
   <table name="category" phpName="Category" idMethod="native">
     <column name="idcategory" phpName="Idcategory" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="category_name" phpName="CategoryName" type="VARCHAR" size="255" required="true"/>
+    <column name="category_icon" phpName="CategoryIcon" type="VARCHAR" size="45" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
   <table name="contact" phpName="Contact" idMethod="native">
     <column name="idcontact" phpName="Idcontact" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="contact_name" phpName="ContactName" type="VARCHAR" size="45" required="true"/>
-    <column name="contact_email" phpName="ContactEmail" type="VARCHAR" size="45" required="true"/>
-    <column name="contact_phone" phpName="ContactPhone" type="VARCHAR" size="45" required="false"/>
+    <column name="contact_name" phpName="ContactName" type="VARCHAR" size="255" required="true"/>
+    <column name="contact_email" phpName="ContactEmail" type="VARCHAR" size="255" required="true"/>
+    <column name="contact_phone" phpName="ContactPhone" type="VARCHAR" size="255" required="false"/>
     <column name="contact_message" phpName="ContactMessage" type="VARCHAR" size="255" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="elementimg" phpName="Elementimg" idMethod="native">
+    <column name="idelementimg" phpName="Idelementimg" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="elementimg_img" phpName="ElementimgImg" type="LONGVARCHAR" required="true"/>
+    <column name="elementimg_type" phpName="ElementimgType" type="CHAR" sqlType="enum('img_top')" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="elementtext" phpName="Elementtext" idMethod="native">
+    <column name="idelementtext" phpName="Idelementtext" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="elementtext_description" phpName="ElementtextDescription" type="LONGVARCHAR" required="true"/>
+    <column name="elementtext_icon" phpName="ElementtextIcon" type="LONGVARCHAR" required="false"/>
+    <column name="elementtext_type" phpName="ElementtextType" type="CHAR" sqlType="enum('text_botton')" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="elementtitle" phpName="Elementtitle" idMethod="native">
+    <column name="idelementtitle" phpName="Idelementtitle" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="elementtitle_title" phpName="ElementtitleTitle" type="VARCHAR" size="45" required="false"/>
+    <column name="elementtitle_type" phpName="ElementtitleType" type="CHAR" sqlType="enum('text_top')" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -23,9 +49,7 @@
     <column name="idcategory" phpName="Idcategory" type="INTEGER" required="true"/>
     <column name="product_name" phpName="ProductName" type="VARCHAR" size="255" required="true"/>
     <column name="product_description" phpName="ProductDescription" type="VARCHAR" size="45" required="true"/>
-    <column name="product_price" phpName="ProductPrice" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="product_long" phpName="ProductLong" type="DECIMAL" size="10" scale="2" required="false"/>
-    <column name="product_high" phpName="ProductHigh" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="product_img" phpName="ProductImg" type="VARCHAR" size="45" required="true"/>
     <foreign-key foreignTable="category" name="idcategory_product" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idcategory" foreign="idcategory"/>
     </foreign-key>
@@ -46,6 +70,25 @@
     <index name="idproduct">
       <index-column name="idproduct"/>
     </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="service" phpName="Service" idMethod="native">
+    <column name="idservice" phpName="Idservice" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="service_name" phpName="ServiceName" type="VARCHAR" size="45" required="true"/>
+    <column name="service_description" phpName="ServiceDescription" type="LONGVARCHAR" required="true"/>
+    <column name="service_img" phpName="ServiceImg" type="LONGVARCHAR" required="true"/>
+    <column name="service_background_img" phpName="ServiceBackgroundImg" type="LONGVARCHAR" required="false"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="slides" phpName="Slides" idMethod="native">
+    <column name="idslides" phpName="Idslides" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="slides_title" phpName="SlidesTitle" type="LONGVARCHAR" required="false"/>
+    <column name="slides_description" phpName="SlidesDescription" type="LONGVARCHAR" required="false"/>
+    <column name="slides_img" phpName="SlidesImg" type="LONGVARCHAR" required="true"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

@@ -1,89 +1,130 @@
+<div class="row">
+    <div class="col s12 center" style="margin-top: 25px;">
+        <img height="200" width="300" src="<?php echo $this->basePath('img/body/NyshuLogo.png') ?>" alt="Logo img">
+    </div>
+</div>
 <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
+    <div class="slider">
+        <ul class="slides">
+            <?php $count=0; ?>
+            <?php foreach($this->slides as $slidesEntity):
+                if($slidesEntity['idslides'] != null){?>
+                    <?php if($count == 0){?>
+                    <li>
+                        <img src="<?php echo $slidesEntity['slides_img']?>">
+                        <div class="caption center-align">
+                            <h3><?php echo $slidesEntity['slides_title']?></h3>
+                            <h5 class="light grey-text text-lighten-3"><?php echo $slidesEntity['slides_description']?></h5>
+                            <br>
+                            <div class="row center">
+                                <a href="http://nyshu.net/contacto" id="download-button" class="btn-large waves-effect waves-light purple">Ordenar</a>
+                            </div>
+                        </div>
+                    </li>
+                    <?php }else if($count==1){?>
+                        <li>
+                            <img src="<?php echo $slidesEntity['slides_img']?>">
+                            <div class="caption left-align">
+                                <h3><?php echo $slidesEntity['slides_title']?></h3>
+                                <h5 class="light grey-text text-lighten-3"><?php echo $slidesEntity['slides_description']?></h5>
+                            </div>
+                        </li>
+                    <?php }else if($count==2){?>
+                        <li>
+                            <img src="<?php echo $slidesEntity['slides_img']?>">
+                            <div class="caption right-align">
+                                <h3><?php echo $slidesEntity['slides_title']?></h3>
+                                <h5 class="light grey-text text-lighten-3"><?php echo $slidesEntity['slides_description']?></h5>
+                            </div>
+                        </li>
+                    <?php }else{?>
+                        <li>
+                            <img src="<?php echo $slidesEntity['slides_img']?>">
+                            <div class="caption right-align">
+                                <h3><?php echo $slidesEntity['slides_title']?></h3>
+                                <h5 class="light grey-text text-lighten-3"><?php echo $slidesEntity['slides_description']?></h5>
+                            </div>
+                        </li>
+                    <?php }?>
+                <?php }?>
+                <?php $count++; ?>
+            <?php endforeach;?>
+        </ul>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<?php for($i=1; $i<=$this->countTitle; $i++): ?>
+    <?php $countTextTop=0; ?>
+    <?php foreach($this->elementtitles as $keyTitle => $elementtitleEntity):
+        $keyTitle = $keyTitle+1;
+        if($keyTitle == $i){
+            if($elementtitleEntity['idelementtitle'] != null){?>
+                <?php if($elementtitleEntity['elementtitle_type'] == 'text_top'){?>
+                    <?php if($countTextTop == 0){?>
+
+                        <div class="center">
+                            <h4><?php echo $elementtitleEntity['elementtitle_title'] ?></h4>
+                        </div>
+
+                    <?php } ?>
+                    <?php $countTextTop++; ?>
+                <?php } ?>
+            <?php }?>
+        <?php }?>
+    <?php endforeach;?>
+    <?php $countImgTop=0; ?>
+    <?php foreach($this->elementimgs as $keyImg => $elementimgEntity):
+        $keyImg = $keyImg+1;
+        if($elementimgEntity['idelementimg'] != null){
+            if($keyImg == $i){
+                if($elementimgEntity['elementimg_type'] == 'img_top'){?>
+                    <?php if($countImgTop == 0){?>
+                        <div class="parallax-container valign-wrapper">
+                            <div class="section no-pad-bot">
+                                <div class="container">
+                                    <div class="row center">
+                                        <h5 class="header col s12 light"><?php echo $elementimgEntity['elementimg_description'] ?></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="parallax"><img src="<?php echo $this->basePath($elementimgEntity['elementimg_img']) ?>" alt="img""></div>
+                        </div>
+                    <?php } ?>
+                    <?php $countImgTop++; ?>
+                <?php } ?>
+            <?php } ?>
+        <?php }?>
+        <?php $countTextBotton=0; ?>
         <div class="container">
-            <br><br>
-            <h1 class="header center purple-text text-darken-3">Nyshu Pasteles</h1>
-            <div class="row center">
-                <h5 class="header col s12 light">Un moderno estilo de pasteles hecho a la medida.</h5>
-            </div>
-            <div class="row center">
-                <a href="http://nyshu.com/contacts.phtml" id="download-button" class="btn-large waves-effect waves-light purple">Ordenar</a>
-            </div>
-            <br><br>
-
-        </div>
-    </div>
-    <div class="parallax"><img src="<?php echo $this->basePath('img/index/pastelNuez.jpg') ?>" alt="pastelNuez img"></div>
-</div>
-
-<div class="container">
-    <div class="section">
-
-        <div class="row">
-            <div class="col s12 center">
-                <h3><i class="mdi-maps-store-mall-directory grey-text"></i></h3>
-                <h4>Lo más vendido</h4>
-                <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-        <div class="container">
-            <div class="row center">
-                <h5 class="header col s12 light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. </h5>
-            </div>
-        </div>
-    </div>
-    <div class="parallax"><img src="<?php echo $this->basePath('img/index/chela31.jpg') ?>" alt="chela31 img "></div>
-</div>
-
-<div class="container">
-    <div class="section">
-
-        <!--   Icon Section   -->
-        <div class="row">
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center grey-text"><i class="mdi-image-tonality"></i></h2>
-                    <h5 class="center">Texto</h5>
-
-                    <p class="light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="section">
+                <div class="row">
+                    <?php
+                    if($i == $keyImg){
+                        foreach($this->elementtexts as $keyText => $elementtextEntity):
+                            if($i == 1 && $keyText >= 0 || $i == 2 && $keyText >= 3 || $i == 3 && $keyText >= 6){
+                                if($elementtextEntity['idelementtext'] != null){?>
+                                    <?php if($elementtextEntity['elementtext_type'] == 'text_botton'){?>
+                                        <?php if($countTextBotton <= 2){?>
+                                            <!--   Icon Section   -->
+                                            <div class="col s12 m4">
+                                                <div class="icon-block">
+                                                    <h2 class="center grey-text"><i class="<?php echo $elementtextEntity['elementtext_icon'] ?>"></i></h2>
+                                                    <h5 class="center"><?php echo $elementtextEntity['elementtext_title'] ?></h5>
+                                                    <p class="light"><?php echo $elementtextEntity['elementtext_description'] ?></p>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <?php $countTextBotton++; ?>
+                                    <?php } ?>
+                                <?php }?>
+                            <?php }?>
+                        <?php endforeach;?>
+                    <?php }?>
                 </div>
             </div>
-
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center grey-text"><i class="mdi-social-group"></i></h2>
-                    <h5 class="center">Texto</h5>
-
-                    <p class="light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
-
-            <div class="col s12 m4">
-                <div class="icon-block">
-                    <h2 class="center grey-text"><i class="mdi-image-tag-faces"></i></h2>
-                    <h5 class="center">Texto</h5>
-
-                    <p class="light">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-            </div>
         </div>
-
-    </div>
-</div>
-
-<div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-        <div class="container">
-            <div class="row center">
-                <h5 class="header col s12 light">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h5>
-            </div>
-        </div>
-    </div>
-    <div class="parallax"><img src="<?php echo $this->basePath('img/index/pastel15.jpg') ?>" alt="pastel15 img"></div>
-</div>
+    <?php endforeach;?>
+<?php endfor;?>

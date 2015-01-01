@@ -11,6 +11,7 @@ namespace Nyshu;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Listener\ImgListener;
 
 class Module
 {
@@ -19,6 +20,9 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $imgListener = new ImgListener();
+        $imgListener->attach($eventManager);
     }
 
     public function getConfig()
@@ -33,6 +37,7 @@ class Module
                 'namespaces' => array(
                     'Panel' => __DIR__ . '/src/' . 'Panel/',
                     'Website' => __DIR__ . '/src/' . 'Website/',
+                    'Listener' => __DIR__ . '/src/' . 'Listener/',
                 ),
             ),
         );

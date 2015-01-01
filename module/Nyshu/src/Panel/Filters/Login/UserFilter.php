@@ -62,8 +62,8 @@ class UserFilter implements InputFilterAwareInterface
                         'name'    => 'StringLength',
                         'options' => array(
                             'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 7,
+                            'min'      => 5,
+                            'max'      => 16,
                         ),
                     ),
                 ),

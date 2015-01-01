@@ -10,10 +10,8 @@ $form->prepare();
 echo $this->form()->openTag($form);
 ?>
 <div class="row">
-    <div class="input-field col s6">
-        <i class="mdi-action-view-list prefix"></i>
-        <?php  echo $this->formText($form->get('idproduct')); ?>
-        <?php  echo $this->formLabel($form->get('idproduct'));
+    <div class="input-field col s6 m6 l6">
+        <?php echo $this->formSelect($form->get('idproduct'));
         $showError=$this->formElementErrors($form->get('idproduct'));
         if(!empty($showError)):
             ?>
@@ -25,23 +23,11 @@ echo $this->form()->openTag($form);
                 echo $showError;
                 ?>
             </div>
-        <?php  endif;
-        if(!empty($Error)):
-            ?>
-            <div class="center-align col" style="color: #e57373">
-                <i class="mdi-content-report prefix"></i>
-            </div>
-            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                <?php
-                echo $Error;
-                ?>
-            </div>
         <?php  endif;?>
     </div>
-
     <div class="input-field col s6">
         <i class="mdi-file-file-upload prefix"></i>
-        <?php echo $this->formRow($form->get('productphoto_img'));
+       <?php echo $this->formRow($form->get('productphoto_img'));
         $showError=$this->formElementErrors($form->get('productphoto_img'));
         if(!empty($showError)):
             ?>
@@ -55,7 +41,6 @@ echo $this->form()->openTag($form);
             </div>
         <?php  endif;?>
     </div>
-
 </div>
 <div class="input-field col s6">
     <?php  echo $this->formButton($form->get('submit')); ?>
@@ -63,3 +48,8 @@ echo $this->form()->openTag($form);
 <?php
 //echo $this->formCollection($form);
 echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

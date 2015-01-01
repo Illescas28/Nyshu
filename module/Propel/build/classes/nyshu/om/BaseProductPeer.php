@@ -24,13 +24,13 @@ abstract class BaseProductPeer
     const TM_CLASS = 'ProductTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 5;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /** the column name for the idproduct field */
     const IDPRODUCT = 'product.idproduct';
@@ -44,14 +44,8 @@ abstract class BaseProductPeer
     /** the column name for the product_description field */
     const PRODUCT_DESCRIPTION = 'product.product_description';
 
-    /** the column name for the product_price field */
-    const PRODUCT_PRICE = 'product.product_price';
-
-    /** the column name for the product_long field */
-    const PRODUCT_LONG = 'product.product_long';
-
-    /** the column name for the product_high field */
-    const PRODUCT_HIGH = 'product.product_high';
+    /** the column name for the product_img field */
+    const PRODUCT_IMG = 'product.product_img';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -72,12 +66,12 @@ abstract class BaseProductPeer
      * e.g. ProductPeer::$fieldNames[ProductPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idproduct', 'Idcategory', 'ProductName', 'ProductDescription', 'ProductPrice', 'ProductLong', 'ProductHigh', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idproduct', 'idcategory', 'productName', 'productDescription', 'productPrice', 'productLong', 'productHigh', ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::IDPRODUCT, ProductPeer::IDCATEGORY, ProductPeer::PRODUCT_NAME, ProductPeer::PRODUCT_DESCRIPTION, ProductPeer::PRODUCT_PRICE, ProductPeer::PRODUCT_LONG, ProductPeer::PRODUCT_HIGH, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPRODUCT', 'IDCATEGORY', 'PRODUCT_NAME', 'PRODUCT_DESCRIPTION', 'PRODUCT_PRICE', 'PRODUCT_LONG', 'PRODUCT_HIGH', ),
-        BasePeer::TYPE_FIELDNAME => array ('idproduct', 'idcategory', 'product_name', 'product_description', 'product_price', 'product_long', 'product_high', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idproduct', 'Idcategory', 'ProductName', 'ProductDescription', 'ProductImg', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idproduct', 'idcategory', 'productName', 'productDescription', 'productImg', ),
+        BasePeer::TYPE_COLNAME => array (ProductPeer::IDPRODUCT, ProductPeer::IDCATEGORY, ProductPeer::PRODUCT_NAME, ProductPeer::PRODUCT_DESCRIPTION, ProductPeer::PRODUCT_IMG, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPRODUCT', 'IDCATEGORY', 'PRODUCT_NAME', 'PRODUCT_DESCRIPTION', 'PRODUCT_IMG', ),
+        BasePeer::TYPE_FIELDNAME => array ('idproduct', 'idcategory', 'product_name', 'product_description', 'product_img', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
     );
 
     /**
@@ -87,12 +81,12 @@ abstract class BaseProductPeer
      * e.g. ProductPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idproduct' => 0, 'Idcategory' => 1, 'ProductName' => 2, 'ProductDescription' => 3, 'ProductPrice' => 4, 'ProductLong' => 5, 'ProductHigh' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idproduct' => 0, 'idcategory' => 1, 'productName' => 2, 'productDescription' => 3, 'productPrice' => 4, 'productLong' => 5, 'productHigh' => 6, ),
-        BasePeer::TYPE_COLNAME => array (ProductPeer::IDPRODUCT => 0, ProductPeer::IDCATEGORY => 1, ProductPeer::PRODUCT_NAME => 2, ProductPeer::PRODUCT_DESCRIPTION => 3, ProductPeer::PRODUCT_PRICE => 4, ProductPeer::PRODUCT_LONG => 5, ProductPeer::PRODUCT_HIGH => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPRODUCT' => 0, 'IDCATEGORY' => 1, 'PRODUCT_NAME' => 2, 'PRODUCT_DESCRIPTION' => 3, 'PRODUCT_PRICE' => 4, 'PRODUCT_LONG' => 5, 'PRODUCT_HIGH' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('idproduct' => 0, 'idcategory' => 1, 'product_name' => 2, 'product_description' => 3, 'product_price' => 4, 'product_long' => 5, 'product_high' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idproduct' => 0, 'Idcategory' => 1, 'ProductName' => 2, 'ProductDescription' => 3, 'ProductImg' => 4, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idproduct' => 0, 'idcategory' => 1, 'productName' => 2, 'productDescription' => 3, 'productImg' => 4, ),
+        BasePeer::TYPE_COLNAME => array (ProductPeer::IDPRODUCT => 0, ProductPeer::IDCATEGORY => 1, ProductPeer::PRODUCT_NAME => 2, ProductPeer::PRODUCT_DESCRIPTION => 3, ProductPeer::PRODUCT_IMG => 4, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPRODUCT' => 0, 'IDCATEGORY' => 1, 'PRODUCT_NAME' => 2, 'PRODUCT_DESCRIPTION' => 3, 'PRODUCT_IMG' => 4, ),
+        BasePeer::TYPE_FIELDNAME => array ('idproduct' => 0, 'idcategory' => 1, 'product_name' => 2, 'product_description' => 3, 'product_img' => 4, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
     );
 
     /**
@@ -170,17 +164,13 @@ abstract class BaseProductPeer
             $criteria->addSelectColumn(ProductPeer::IDCATEGORY);
             $criteria->addSelectColumn(ProductPeer::PRODUCT_NAME);
             $criteria->addSelectColumn(ProductPeer::PRODUCT_DESCRIPTION);
-            $criteria->addSelectColumn(ProductPeer::PRODUCT_PRICE);
-            $criteria->addSelectColumn(ProductPeer::PRODUCT_LONG);
-            $criteria->addSelectColumn(ProductPeer::PRODUCT_HIGH);
+            $criteria->addSelectColumn(ProductPeer::PRODUCT_IMG);
         } else {
             $criteria->addSelectColumn($alias . '.idproduct');
             $criteria->addSelectColumn($alias . '.idcategory');
             $criteria->addSelectColumn($alias . '.product_name');
             $criteria->addSelectColumn($alias . '.product_description');
-            $criteria->addSelectColumn($alias . '.product_price');
-            $criteria->addSelectColumn($alias . '.product_long');
-            $criteria->addSelectColumn($alias . '.product_high');
+            $criteria->addSelectColumn($alias . '.product_img');
         }
     }
 

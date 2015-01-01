@@ -39,14 +39,14 @@ class LoginController extends AbstractActionController
                 foreach($userForm->getData() as $userKey => $userValue){
                     $userArray[$userKey] = $userValue;
                 }
-                $userExists = UserQuery::create()->filterByUserName($userArray['user_name'])->filterByUserPassword($userArray['user_password'])->exists();
 
+                $userExists = UserQuery::create()->filterByUserName($userArray['user_name'])->filterByUserPassword($userArray['user_password'])->exists();
                 if($userExists){
                     session_start();
                     $_SESSION['user_name'] = $userArray['user_name'];
+                    $_SESSION['user_password'] = $userArray['user_password'];
                     $this->layout('layout/layoutPanel');
                     return $this->redirect()->toRoute('panel-producto', array('action' => 'listar'));
-
                 }else{
                     $this->layout('layout/layoutAuth');
                 }

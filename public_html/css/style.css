@@ -1,0 +1,170 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #C0C0C0;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+  .parallax-container .section {
+    width: 100%;
+  }
+
+@media only screen and (max-width : 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+
+.icon-block {
+  padding: 0 15px;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+#contenedor {
+    width: 700px;
+}
+#cabecera {
+}
+#menu {
+    float: left;
+    width: 150px;
+}
+#contenido {
+    float: left;
+    width: 550px;
+}
+#pie {
+    clear: both;
+}
+.login{
+    margin-top: 10em;
+}
+.pointer {
+    cursor: pointer;
+}
+.sliderproduct {
+    position: relative;
+    height: 440px;
+    width: 98%; }
+    .sliderproduct.fullscreen {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; }
+        .sliderproduct.fullscreen ul.slidesproduct {
+            height: 100%; }
+        .sliderproduct.fullscreen ul.indicators {
+            z-index: 2;
+            bottom: 30px; }
+        .sliderproduct ul.slidesproduct {
+            background-color: #9e9e9e;
+            margin: 0;
+            height: 400px; }
+            .sliderproduct ul.slidesproduct li {
+                -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+                filter: "alpha(opacity=(${iefactor}))";
+                -moz-opacity: 0;
+                -khtml-opacity: 0;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                width: 100%;
+                height: inherit;
+                overflow: hidden; }
+                .sliderproduct ul.slidesproduct li img {
+                    height: 100%;
+                    width: 100%;
+                    background-size: cover;
+                    background-position: center;
+                    padding-top: 10px; }
+                .sliderproduct ul.slidesproduct li .caption {
+                    color: #fff;
+                    position: absolute;
+                    top: 15%;
+                    left: 15%;
+                    width: 70%;
+                    -ms-filter: "progid:DXImageTransform@mixin Microsoft@mixin Alpha(Opacity=${iefactor})";
+                    filter: "alpha(opacity=(${iefactor}))";
+                    -moz-opacity: 0;
+                    -khtml-opacity: 0;
+                    opacity: 0; }
+                    .sliderproduct ul.slidesproduct li .caption p {
+                        color: #e0e0e0; }
+                    .sliderproduct ul.slidesproduct li.active {
+                        z-index: 2; }
+                    .sliderproduct ul.indicators {
+                        position: absolute;
+                        text-align: center;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        margin: 0; }
+                    .sliderproduct ul.indicators li.indicator-item {
+                        display: inline-block;
+                        position: relative;
+                        cursor: pointer;
+                        height: 16px;
+                        width: 16px;
+                        margin: 0 12px;
+                        background-color: #704E87;
+                        -webkit-transition: background-color 0.3s;
+                        -moz-transition: background-color 0.3s;
+                        -o-transition: background-color 0.3s;
+                        -ms-transition: background-color 0.3s;
+                        transition: background-color 0.3s;
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        border-radius: 50%;
+                        background-clip: padding-box; }
+                    .sliderproduct ul.indicators li.indicator-item.active {
+                        background-color: #4CAF50; }
+
+.padding_botton_10 {
+    padding-bottom: 10px;
+}
+.card_line_price {
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    padding-top: 10px;
+}
+.body{
+    background-image: url("../img/body/fondoNyshu.jpg");
+}

@@ -6,11 +6,12 @@ use Zend\Form\Form;
 
 class ProductoForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct(array $categories = null)
     {
         // we want to ignore the name passed
         parent::__construct('ProductoForm');
         $this->setAttribute('method', 'post');
+        $this->setAttribute('enctype','multipart/form-data');
 
         $this->add(array(
             'name' => 'idproduct',
@@ -18,9 +19,11 @@ class ProductoForm extends Form
         ));
         $this->add(array(
             'name' => 'idcategory',
-            'type' => 'Text',
+            'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'ID Categoría',
+                'label' => 'Categorías',
+                'empty_option' => 'Seleccione una categoría',
+                'value_options' => $categories,
             ),
         ));
         $this->add(array(
@@ -38,26 +41,17 @@ class ProductoForm extends Form
             ),
         ));
         $this->add(array(
-            'name' => 'product_price',
-            'type' => 'Text',
+            'name' => 'product_img',
+            'attributes' => array(
+                'type'  => 'file',
+                'class' => 'pointer'
+            ),
             'options' => array(
-                'label' => 'Precio',
+                'label' => 'Imagen',
             ),
         ));
-        $this->add(array(
-            'name' => 'product_long',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Largo',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'product_high',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Alto',
-            ),
-        ));
+
+
         $this->add(array(
             'name' => 'submit',
             'type' => 'submit',

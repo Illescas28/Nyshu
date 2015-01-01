@@ -1,0 +1,32 @@
+<?php
+$title = 'Eliminar slides';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>¿Estás seguro que deseas eliminar el elemento?</p>
+<table class="table">
+    <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Imagen Url</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($slides['slides_title']);?></td>
+            <td><?php echo $this->escapeHtml($slides['slides_description']);?></td>
+            <td><?php echo $this->escapeHtml($slides['slides_img']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('panel-slides', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $slides['idslides']; ?>" />
+        <input type="submit" name="del" value="Si" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

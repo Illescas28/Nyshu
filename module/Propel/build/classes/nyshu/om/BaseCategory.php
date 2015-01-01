@@ -42,6 +42,12 @@ abstract class BaseCategory extends BaseObject implements Persistent
     protected $category_name;
 
     /**
+     * The value for the category_icon field.
+     * @var        string
+     */
+    protected $category_icon;
+
+    /**
      * @var        PropelObjectCollection|Product[] Collection to store aggregation of Product objects.
      */
     protected $collProducts;
@@ -96,6 +102,17 @@ abstract class BaseCategory extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [category_icon] column value.
+     *
+     * @return string
+     */
+    public function getCategoryIcon()
+    {
+
+        return $this->category_icon;
+    }
+
+    /**
      * Set the value of [idcategory] column.
      *
      * @param  int $v new value
@@ -138,6 +155,27 @@ abstract class BaseCategory extends BaseObject implements Persistent
     } // setCategoryName()
 
     /**
+     * Set the value of [category_icon] column.
+     *
+     * @param  string $v new value
+     * @return Category The current object (for fluent API support)
+     */
+    public function setCategoryIcon($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->category_icon !== $v) {
+            $this->category_icon = $v;
+            $this->modifiedColumns[] = CategoryPeer::CATEGORY_ICON;
+        }
+
+
+        return $this;
+    } // setCategoryIcon()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -171,6 +209,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
 
             $this->idcategory = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->category_name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->category_icon = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -180,7 +219,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 2; // 2 = CategoryPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = CategoryPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Category object", $e);
@@ -417,6 +456,9 @@ abstract class BaseCategory extends BaseObject implements Persistent
         if ($this->isColumnModified(CategoryPeer::CATEGORY_NAME)) {
             $modifiedColumns[':p' . $index++]  = '`category_name`';
         }
+        if ($this->isColumnModified(CategoryPeer::CATEGORY_ICON)) {
+            $modifiedColumns[':p' . $index++]  = '`category_icon`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `category` (%s) VALUES (%s)',
@@ -433,6 +475,9 @@ abstract class BaseCategory extends BaseObject implements Persistent
                         break;
                     case '`category_name`':
                         $stmt->bindValue($identifier, $this->category_name, PDO::PARAM_STR);
+                        break;
+                    case '`category_icon`':
+                        $stmt->bindValue($identifier, $this->category_icon, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -582,6 +627,9 @@ abstract class BaseCategory extends BaseObject implements Persistent
             case 1:
                 return $this->getCategoryName();
                 break;
+            case 2:
+                return $this->getCategoryIcon();
+                break;
             default:
                 return null;
                 break;
@@ -613,6 +661,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
         $result = array(
             $keys[0] => $this->getIdcategory(),
             $keys[1] => $this->getCategoryName(),
+            $keys[2] => $this->getCategoryIcon(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -663,6 +712,9 @@ abstract class BaseCategory extends BaseObject implements Persistent
             case 1:
                 $this->setCategoryName($value);
                 break;
+            case 2:
+                $this->setCategoryIcon($value);
+                break;
         } // switch()
     }
 
@@ -689,6 +741,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
 
         if (array_key_exists($keys[0], $arr)) $this->setIdcategory($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setCategoryName($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setCategoryIcon($arr[$keys[2]]);
     }
 
     /**
@@ -702,6 +755,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
 
         if ($this->isColumnModified(CategoryPeer::IDCATEGORY)) $criteria->add(CategoryPeer::IDCATEGORY, $this->idcategory);
         if ($this->isColumnModified(CategoryPeer::CATEGORY_NAME)) $criteria->add(CategoryPeer::CATEGORY_NAME, $this->category_name);
+        if ($this->isColumnModified(CategoryPeer::CATEGORY_ICON)) $criteria->add(CategoryPeer::CATEGORY_ICON, $this->category_icon);
 
         return $criteria;
     }
@@ -766,6 +820,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setCategoryName($this->getCategoryName());
+        $copyObj->setCategoryIcon($this->getCategoryIcon());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1078,6 +1133,7 @@ abstract class BaseCategory extends BaseObject implements Persistent
     {
         $this->idcategory = null;
         $this->category_name = null;
+        $this->category_icon = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

@@ -1,0 +1,39 @@
+<?php
+
+$title = 'Mis elementos de texto';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php if(count($flashMessages)) :?>
+    <?php foreach ($flashMessages as $message) :?>
+        <div class="card-panel #00086E-text red accent-2"><?php echo $message?></div>
+    <?php endforeach;?>
+<?php endif;?>
+<p>
+    <a href="<?php echo $this->url('panel-element-text', array('action'=>'nuevo'));?>">Nuevo elemento de texto</a>
+</p>
+
+<table class="table striped">
+    <thead>
+    <tr>
+        <th>Descripción</th>
+        <th>Clase de ícono</th>
+        <th>Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($elementtexts as $elementtext) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($elementtext['elementtext_description']);?></td>
+                <td><?php echo $this->escapeHtml($elementtext['elementtext_icon']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-element-text',
+                        array('action'=>'editar', 'id' => $elementtext['idelementtext']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-element-text',
+                        array('action'=>'eliminar', 'id' => $elementtext['idelementtext']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

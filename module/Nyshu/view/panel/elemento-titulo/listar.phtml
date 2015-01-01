@@ -1,0 +1,37 @@
+<?php
+
+$title = 'Mis elementos de titulo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php if(count($flashMessages)) :?>
+    <?php foreach ($flashMessages as $message) :?>
+        <div class="card-panel #00086E-text red accent-2"><?php echo $message?></div>
+    <?php endforeach;?>
+<?php endif;?>
+<p>
+    <a href="<?php echo $this->url('panel-element-title', array('action'=>'nuevo'));?>">Nuevo elemento de titulo</a>
+</p>
+
+<table class="table striped">
+    <thead>
+    <tr>
+        <th>Titulo</th>
+        <th>Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($elementtitles as $elementtitle) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($elementtitle['elementtitle_title']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-element-title',
+                        array('action'=>'editar', 'id' => $elementtitle['idelementtitle']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-element-title',
+                        array('action'=>'eliminar', 'id' => $elementtitle['idelementtitle']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

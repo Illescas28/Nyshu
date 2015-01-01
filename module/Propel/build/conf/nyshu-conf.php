@@ -9,7 +9,7 @@ $conf = array (
       'adapter' => 'mysql',
       'connection' => 
       array (
-        'dsn' => 'mysql:host=nyshu.com.mx;dbname=nyshu',
+        'dsn' => 'mysql:host=nyshu.com;dbname=nyshunet_db',
         'user' => 'root',
         'password' => 'mysql',
       ),

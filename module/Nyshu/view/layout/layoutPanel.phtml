@@ -41,20 +41,30 @@
 </nav>
 -->
 <nav class="purple" role="navigation">
-    <div class="nav-wrapper container">
+    <div class="nav-wrapper">
         <ul class="left hide-on-med-and-down">
+            <li><a href="<?php echo $this->url('panel-slides') ?>">&nbsp;<?php echo $this->translate('Slides') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-title') ?>">&nbsp;<?php echo $this->translate('Elementos de Título') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-img') ?>">&nbsp;<?php echo $this->translate('Elementos de Imagen') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-text') ?>">&nbsp;<?php echo $this->translate('Elementos de Texto') ?></a></li>
             <li><a href="<?php echo $this->url('panel-categoria') ?>">&nbsp;<?php echo $this->translate('Categoría') ?></a></li>
             <li><a href="<?php echo $this->url('panel-producto') ?>">&nbsp;<?php echo $this->translate('Producto') ?></a></li>
-            <li><a href="<?php echo $this->url('panel-producto-foto') ?>">&nbsp;<?php echo $this->translate('Photo de Producto') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-producto-foto') ?>">&nbsp;<?php echo $this->translate('Fotos de Producto') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-servicios') ?>">&nbsp;<?php echo $this->translate('Servicios') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-contacto') ?>">&nbsp;<?php echo $this->translate('Contactos') ?></a></li>
+            <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_welcome'>Bienvenido <span class="grey-text text-lighten-3"><?php echo $_SESSION['user_name']; ?></span></a></li>
         </ul>
-        <ul class="right">
-            <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_welcome'>Bienvenido <?php echo $_SESSION['user_name']; ?></a></li>
-        </ul>
-        <br>
         <ul id="nav-mobile" class="side-nav">
+            <li><a href="<?php echo $this->url('panel-slides') ?>">&nbsp;<?php echo $this->translate('Slides') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-title') ?>">&nbsp;<?php echo $this->translate('Elementos de Título') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-img') ?>">&nbsp;<?php echo $this->translate('Elementos de Imagen') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-element-text') ?>">&nbsp;<?php echo $this->translate('Elementos de Texto') ?></a></li>
             <li><a href="<?php echo $this->url('panel-categoria') ?>">&nbsp;<?php echo $this->translate('Categoría') ?></a></li>
             <li><a href="<?php echo $this->url('panel-producto') ?>">&nbsp;<?php echo $this->translate('Producto') ?></a></li>
-            <li><a href="<?php echo $this->url('panel-producto-foto') ?>">&nbsp;<?php echo $this->translate('Photo de Producto') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-producto-foto') ?>">&nbsp;<?php echo $this->translate('Fotos de Producto') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-servicios') ?>">&nbsp;<?php echo $this->translate('Servicios') ?></a></li>
+            <li><a href="<?php echo $this->url('panel-contacto') ?>">&nbsp;<?php echo $this->translate('Contactos') ?></a></li>
+            <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_welcome'>Bienvenido <span class="grey-text text-lighten-3"><?php echo $_SESSION['user_name']; ?></span></a></li>
         </ul>
         <ul id='dropdown_welcome' class='dropdown-content'>
             <li><a href="<?php echo $this->url('panel-login', array('action' => 'logout')) ?>">Cerrar sesión</a></li>
@@ -68,7 +78,7 @@
 <footer class="page-footer">
     <div class="footer-copyright">
         <div class="container">
-            &copy; Copyright 2015 - - <?php echo date('Y') ?> by<a class="purple-text text-lighten-2" href="http://nyshu.com.mx"> Nyshu</a> - <?php echo $this->translate('All rights reserved.') ?>
+            &copy; Copyright 2015 - <?php echo date('Y') ?> by<a class="purple-text text-lighten-2" href="http://nyshu.net"> Nyshu</a> - <?php echo $this->translate('Todos los derechos reservados.') ?>
         </div>
     </div>
 </footer>

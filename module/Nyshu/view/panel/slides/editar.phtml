@@ -1,0 +1,84 @@
+<?php
+$title = 'Editar slides';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+    $form = $this->SlidesForm;
+    $form->setAttribute('action', $this->url(
+        'panel-slides',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    ?>
+
+    <div class="row">
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-social-person-outline prefix"></i>
+            <?php  echo $this->formText($form->get('slides_title')); ?>
+            <?php  echo $this->formLabel($form->get('slides_title'));
+            $showError=$this->formElementErrors($form->get('slides_title'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-editor-border-color prefix"></i>
+            <?php  echo $this->formText($form->get('slides_description')); ?>
+            <?php  echo $this->formLabel($form->get('slides_description'));
+            $showError=$this->formElementErrors($form->get('slides_description'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-file-file-upload prefix"></i>
+            <?php echo $this->formRow($form->get('slides_img'));
+            $showError=$this->formElementErrors($form->get('slides_img'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="input-field col s6">
+        <?php  echo $this->formButton($form->get('submit')); ?>
+    </div>
+    <?php
+    echo $this->form()->closeTag();
+?>
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

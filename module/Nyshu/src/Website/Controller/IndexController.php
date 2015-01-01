@@ -12,10 +12,36 @@ namespace Website\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+//// Propel ////
+use BasePeer;
+use SlidesQuery;
+use ElementimgQuery;
+use ElementtitleQuery;
+use ElementtextQuery;
+
 class IndexController extends AbstractActionController
 {
+
     public function indexAction()
     {
-        return new ViewModel();
+        $slidesQuery = SlidesQuery::create()->find();
+        $elementimgQuery = ElementimgQuery::create()->find();
+        $elementtitleQuery = ElementtitleQuery::create()->find();
+        $elementtextQuery = ElementtextQuery::create()->find();
+
+        $countText=0;
+        for($i=1; $i<=$elementtextQuery->count(); $i++){
+            if(($i % 3) == 0){
+                $countText++;
+            }
+        }
+        return new ViewModel(array(
+            'slides'     =>  $slidesQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
+            'elementimgs'     =>  $elementimgQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
+            'elementtitles'     =>  $elementtitleQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
+            'elementtexts'     =>  $elementtextQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME),
+            'countTitle' => $elementtitleQuery->count(),
+            'modText' => $countText,
+        ));
     }
 }

@@ -5,7 +5,12 @@
             <datasource id="nyshu">
                 <adapter>mysql</adapter> <!-- sqlite, mysql, myssql, oracle, or pgsql -->
                 <connection>
-                    <dsn>mysql:host=nyshu.com.mx;dbname=nyshu</dsn>
+                    <!--
+                    <dsn>mysql:host=nyshu.net;dbname=nyshunet_db</dsn>
+                    <user>nyshunet_nyshu</user>
+                    <password>DBNyshu2015</password>
+                    -->
+                    <dsn>mysql:host=nyshu.com;dbname=nyshunet_db</dsn>
                     <user>root</user>
                     <password>mysql</password>
                 </connection>

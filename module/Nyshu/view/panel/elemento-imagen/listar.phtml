@@ -1,0 +1,37 @@
+<?php
+
+$title = 'Imágenes del inicio';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php if(count($flashMessages)) :?>
+    <?php foreach ($flashMessages as $message) :?>
+        <div class="card-panel #00086E-text red accent-2"><?php echo $message?></div>
+    <?php endforeach;?>
+<?php endif;?>
+<p>
+    <a href="<?php echo $this->url('panel-element-img', array('action'=>'nuevo'));?>">Nuevo elemento imágen</a>
+</p>
+
+<table class="table striped">
+    <thead>
+    <tr>
+        <th>Imagen Url</th>
+        <th>Opciones</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($elementimgs as $elementimg) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($elementimg['elementimg_img']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-element-img',
+                        array('action'=>'editar', 'id' => $elementimg['idelementimg']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-element-img',
+                        array('action'=>'eliminar', 'id' => $elementimg['idelementimg']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

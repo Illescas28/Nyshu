@@ -1,0 +1,20 @@
+<?php $this->headTitle()->prepend('Servicios Nyshu') ?>
+<div class="row">
+    <div class="col s12 m12 center">
+        <h4 class="grey-text text-darken-3">Servicios</h4>
+    </div>
+    <div class="col s10 offset-s1">
+        <?php foreach ($this->servicios as $servicio): ?>
+            <?php $backgoundImg = isset($servicio['service_background_img']) ? $servicio['service_background_img'] : '/img/services/backgroundDefault.gif'; ?>
+            <div class="col s12 m6">
+                <div class="card-panel" style="background-image: url(<?php echo $backgoundImg ?>);">
+                    <span class="grey-text text-darken-4">
+                        <h5 class="grey-text text-lighten-3"><?php echo $servicio['service_name']?></h5>
+                        <p class="grey-text text-lighten-2"><?php echo htmlentities($servicio['service_description'])?></p>
+                    </span>
+                    <img class="materialboxed" width="150" src="<?php echo $this->basePath($servicio['service_img']) ?>">
+                </div>
+            </div>
+        <?php endforeach;?>
+    </div>
+</div>

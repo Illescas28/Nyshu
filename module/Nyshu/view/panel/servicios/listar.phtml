@@ -1,0 +1,36 @@
+<?php
+
+$title = 'Mis Servicios';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('panel-servicios', array('action'=>'nuevo'));?>">Nuevo Servicio</a>
+</p>
+
+<table class="table striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Imagen Url</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($servicios as $servicio) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($servicio['service_name']);?></td>
+                <td><?php echo $this->escapeHtml($servicio['service_description']);?></td>
+                <td><?php echo $this->escapeHtml($servicio['service_img']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-servicios',
+                        array('action'=>'editar', 'id' => $servicio['idservice']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-servicios',
+                        array('action'=>'eliminar', 'id' => $servicio['idservice']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

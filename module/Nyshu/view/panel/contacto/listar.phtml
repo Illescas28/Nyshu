@@ -1,0 +1,32 @@
+<?php
+
+$title = 'Mis Contactos';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<table class="table striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Mensaje</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($contactos as $contacto) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($contacto['contact_name']);?></td>
+                <td><?php echo $this->escapeHtml($contacto['contact_email']);?></td>
+                <td><?php echo $this->escapeHtml($contacto['contact_phone']);?></td>
+                <td><?php echo $this->escapeHtml($contacto['contact_message']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-contacto',
+                        array('action'=>'eliminar', 'id' => $contacto['idcontact']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

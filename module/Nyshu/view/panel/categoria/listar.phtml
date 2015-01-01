@@ -8,23 +8,27 @@ $this->headTitle($title);
     <a href="<?php echo $this->url('panel-categoria', array('action'=>'nuevo'));?>">Nueva Categoría</a>
 </p>
 
-<table class="table">
-    <tr>
-        <th>ID Categoría</th>
-        <th>Nombre de Categoría</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php
-    foreach ($categorias as $categoria) : ?>
+<table class="table striped">
+    <thead>
         <tr>
-            <td><?php echo $this->escapeHtml($categoria['idcategory']);?></td>
-            <td><?php echo $this->escapeHtml($categoria['category_name']);?></td>
-            <td>
-                <a href="<?php echo $this->url('panel-categoria',
-                    array('action'=>'editar', 'id' => $categoria['idcategory']));?>">Editar</a>
-                <a href="<?php echo $this->url('panel-categoria',
-                    array('action'=>'eliminar', 'id' => $categoria['idcategory']));?>">Eliminar</a>
-            </td>
+            <th>Nombre de Categoría</th>
+            <th>Nombre del ícono</th>
+            <th>Opciones</th>
         </tr>
-    <?php endforeach; ?>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($categorias as $categoria) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($categoria['category_name']);?></td>
+                <td><?php echo $this->escapeHtml($categoria['category_icon']);?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-categoria',
+                        array('action'=>'editar', 'id' => $categoria['idcategory']));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-categoria',
+                        array('action'=>'eliminar', 'id' => $categoria['idcategory']));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>

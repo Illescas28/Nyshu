@@ -28,6 +28,9 @@ echo $this->form()->openTag($form);
             </div>
         <?php  endif;?>
     </div>
+    <div class="input-field col s6">
+        <?php  echo $this->formSelect($form->get('category_icon')); ?>
+    </div>
 </div>
 <div class="input-field col s6">
     <?php  echo $this->formButton($form->get('submit')); ?>
@@ -35,3 +38,8 @@ echo $this->form()->openTag($form);
 <?php
 //echo $this->formCollection($form);
 echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

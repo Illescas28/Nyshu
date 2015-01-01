@@ -18,6 +18,7 @@ use Website\Forms\CategoryForm;
 //// Propel ////
 use BasePeer;
 use ProductQuery;
+use ProductphotoQuery;
 use CategoryQuery;
 
 /**
@@ -45,6 +46,12 @@ class ProductosController extends AbstractActionController
             //Lectura de la tabla product
             $productQuery = ProductQuery::create()->find();
             $productQueryArray = $productQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+
+            //Lectura de la tabla productphoto
+            foreach($productQuery as $productEntity){
+                $productphotoQuery[$productEntity->getIdproduct()] = ProductphotoQuery::create()->filterByIdproduct($productEntity->getIdproduct())->find();
+                $productphotoQueryArray[$productEntity->getIdproduct()] = $productphotoQuery[$productEntity->getIdproduct()]->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+            }
         }else{
             //Lectura de la tabla product
             $productQuery = ProductQuery::create()->filterByIdcategory($idcategory)->find();
@@ -53,11 +60,18 @@ class ProductosController extends AbstractActionController
             // Obtenemos el nombre de la categoría
             $categoryQuery = CategoryQuery::create()->filterByIdcategory($idcategory)->findOne();
             $categoryName = $categoryQuery->getCategoryName();
+
+            //Lectura de la tabla productphoto
+            foreach($productQuery as $productEntity){
+                $productphotoQuery[$productEntity->getIdproduct()] = ProductphotoQuery::create()->filterByIdproduct($productEntity->getIdproduct())->find();
+                $productphotoQueryArray[$productEntity->getIdproduct()] = $productphotoQuery[$productEntity->getIdproduct()]->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+            }
         }
 
         return array(
             'category_name' => $categoryName,
             'product_collection' => $productQueryArray,
+            'productphoto_by_product' => $productphotoQueryArray
         );
     }
 
@@ -70,8 +84,25 @@ class ProductosController extends AbstractActionController
         $idcategory = $this->params()->fromRoute('id');
 
         return new ViewModel(array(
-            'productos'    =>  $this->getProductos($idcategory),
-            'category'    =>  $this->getCategorias(),
+            'productos'     =>  $this->getProductos($idcategory),
+            'category'      =>  $this->getCategorias(),
         ));
+    }
+
+    /**
+     * @return array
+     */
+    public function verAction(){
+
+        $idproduct = $this->params()->fromRoute('idproduct');
+
+        //Lectura de la tabla product
+        $productQuery = ProductQuery::create()->filterByIdproduct($idproduct)->findOne();
+        //Lectura de la tabla productphoto
+        $productphotoQuery = ProductphotoQuery::create()->filterByIdproduct($idproduct)->find();
+        return array(
+            'product' => $productQuery,
+            'productphoto' => $productphotoQuery,
+        );
     }
 }

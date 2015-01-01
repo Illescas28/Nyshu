@@ -41,7 +41,7 @@ class ProductoFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'product_name',
-                'required' => false,
+                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
@@ -71,61 +71,14 @@ class ProductoFilter implements InputFilterAwareInterface
                         'options' => array(
                             'encoding' => 'UTF-8',
                             'min'      => 1,
-                            'max'      => 255,
+                            'max'      => 500,
                         ),
                     ),
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'product_price',
+                'name'     => 'product_img',
                 'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
-            ));
-            $inputFilter->add(array(
-                'name'     => 'product_long',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
-            ));
-            $inputFilter->add(array(
-                'name'     => 'product_high',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
             ));
 
             $this->inputFilter = $inputFilter;

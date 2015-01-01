@@ -8,9 +8,11 @@
  *
  * @method CategoryQuery orderByIdcategory($order = Criteria::ASC) Order by the idcategory column
  * @method CategoryQuery orderByCategoryName($order = Criteria::ASC) Order by the category_name column
+ * @method CategoryQuery orderByCategoryIcon($order = Criteria::ASC) Order by the category_icon column
  *
  * @method CategoryQuery groupByIdcategory() Group by the idcategory column
  * @method CategoryQuery groupByCategoryName() Group by the category_name column
+ * @method CategoryQuery groupByCategoryIcon() Group by the category_icon column
  *
  * @method CategoryQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method CategoryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -24,9 +26,11 @@
  * @method Category findOneOrCreate(PropelPDO $con = null) Return the first Category matching the query, or a new Category object populated from the query conditions when no match is found
  *
  * @method Category findOneByCategoryName(string $category_name) Return the first Category filtered by the category_name column
+ * @method Category findOneByCategoryIcon(string $category_icon) Return the first Category filtered by the category_icon column
  *
  * @method array findByIdcategory(int $idcategory) Return Category objects filtered by the idcategory column
  * @method array findByCategoryName(string $category_name) Return Category objects filtered by the category_name column
+ * @method array findByCategoryIcon(string $category_icon) Return Category objects filtered by the category_icon column
  *
  * @package    propel.generator.nyshu.om
  */
@@ -134,7 +138,7 @@ abstract class BaseCategoryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idcategory`, `category_name` FROM `category` WHERE `idcategory` = :p0';
+        $sql = 'SELECT `idcategory`, `category_name`, `category_icon` FROM `category` WHERE `idcategory` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -292,6 +296,35 @@ abstract class BaseCategoryQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CategoryPeer::CATEGORY_NAME, $categoryName, $comparison);
+    }
+
+    /**
+     * Filter the query on the category_icon column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCategoryIcon('fooValue');   // WHERE category_icon = 'fooValue'
+     * $query->filterByCategoryIcon('%fooValue%'); // WHERE category_icon LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $categoryIcon The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return CategoryQuery The current query, for fluid interface
+     */
+    public function filterByCategoryIcon($categoryIcon = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($categoryIcon)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $categoryIcon)) {
+                $categoryIcon = str_replace('*', '%', $categoryIcon);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CategoryPeer::CATEGORY_ICON, $categoryIcon, $comparison);
     }
 
     /**

@@ -1,25 +1,24 @@
+<?php $this->headTitle()->prepend('Contáctanos - Nyshu') ?>
 <div class="container">
-    <br>
-    <br>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3732.876373805066!2d-103.355631!3d20.674608000000003!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b1fce3244caf%3A0xc6bdc239b8c8d1fa!2sJuarez!5e0!3m2!1ses!2smx!4v1426455837200" width="100%" height="400" frameborder="0" style="border:0"></iframe>
-    <div class="center-align" style="font-weight: bold;">
-        <p>Av. Juarez 500 Col. Americana, Guadalajara Jalisco, México</p>
-    </div>
+    <?php
+    // Si el contacto fue guardado en nuestra base de datos.
+    if($this->send):?>
+        <div class="center-align col1" style="color: #47D598">
+            <i class="medium mdi-toggle-check-box"></i>
+        </div>
+        <div class="center-align col s11 offset-s1" style="color: #47D598; font-size: 20px;">
+            <span><?php echo "Gracias por contactarnos!"; ?></span>
+            <br>
+            <span><?php echo "En breve nos pondremos en contacto contigo."; ?></span>
+            <div>&nbsp;</div>
+        </div>
+    <?php  endif;?>
     <div class="section">
-        <h4>Contáctanos</h4>
-        <hr class="grey-text lighten-5">
+        <blockquote style="border-left: 5px solid #64b5f6">
+            <h4 class="grey-text text-darken-3">Levánta tu orden</h4>
+        </blockquote>
         <!--   Form Section   -->
         <?php
-        // Si el contacto fue guardado en nuestra base de datos.
-        if($this->send):?>
-            <div class="center-align col1" style="color: #47D598">
-                <i class="mdi-toggle-check-box"></i>
-            </div>
-            <div class="center-align col s11 offset-s1" style="color: #47D598">
-                <?php echo "Gracias por contactarnos!. En breve nos pondremos en contacto con ud."; ?>
-            </div>
-        <?php  endif;
-
         $form = $this->contactForm;
             $form->setAttribute('action', $this->url('website-contacto', array('action' => 'index')));
             $form->prepare();
@@ -126,5 +125,18 @@
             echo $this->form()->closeTag(); ?>
 
         </div>
+        <br>
+        <br>
+        <blockquote style="border-left: 5px solid #aed581">
+            <h4 class="grey-text text-darken-3">Visítanos</h4>
+        </blockquote>
+        <p>
+            Te invitamos a nuestra cafetería donde podrás disfrutar de ricas bebidas tanto calientes como frías, deliciosos postres tradicionales y de vanguardia disfrutando del acogedor ambiente de las instalaciones, que además cuentan con una pequeña biblioteca, juegos de mesa y proyecciones programadas.
+        </p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.430820641482!2d-103.354059!3d20.692723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b1e75a2c1b1b%3A0x1f95958f8e86bc19!2sMariano+Barcena+775%2C+Centro%2C+44100+Guadalajara%2C+Jal.!5e0!3m2!1ses!2smx!4v1433057322439" width="100%" height="400" frameborder="0" style="border:0"></iframe>
+        <div class="center-align" style="font-weight: bold;">
+            <p>Mariano Barcena 775, Centro, 44200 Guadalajara, Jal.</p>
+        </div>
     </div>
+
 </div>

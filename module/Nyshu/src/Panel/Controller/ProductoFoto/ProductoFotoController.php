@@ -21,9 +21,16 @@ class ProductoFotoController extends AbstractActionController
     public function nuevoAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
-            $ProductoFotoForm = new ProductoFotoForm();
+
+            //Instanciamos nuestra productoQuery
+            $productQuery = \ProductQuery::create()->find();
+            $productosArray = array();
+            foreach($productQuery->toArray(null,false,BasePeer::TYPE_FIELDNAME) as $categoryEntity){
+                $productosArray[$categoryEntity['idproduct']] = $categoryEntity['product_name'];
+            }
+            $ProductoFotoForm = new ProductoFotoForm($productosArray);
             $ProductoFotoForm->get('submit')->setValue('Nuevo');
 
             $request = $this->getRequest();
@@ -72,17 +79,17 @@ class ProductoFotoController extends AbstractActionController
                         } //seteamos formElementErrors
                         $ProductoFotoForm->setMessages(array('productphoto_img'=>$error ));
                     } else {
-                        $adapter->setDestination('/Applications/AMPPS/www/NyshuZF2/dev/public/img');
+                        $adapter->setDestination(IMG_PRODUCTOS);
                         if ($adapter->receive($File['name'])) {
-                            // Guardamos la imagen en /Applications/AMPPS/www/NyshuZF2/dev/public/img
+                            // Guardamos la imagen en IMG_PRODUCTOS
                         }
                     }
 
                     $ProductoFoto = new Productphoto();
                     foreach($ProductoFotoForm->getData() as $ProductoFotoKey => $ProductoFotoValue){
                         if($ProductoFotoKey != 'idproductphoto' && $ProductoFotoKey != 'submit'){
-                            if($ProductoFotoKey == 'idproductphoto_img'){
-                                $ProductoFoto->setByName($ProductoFotoKey, 'img/'.$ProductoFotoValue, BasePeer::TYPE_FIELDNAME);
+                            if($ProductoFotoKey == 'productphoto_img'){
+                                $ProductoFoto->setProductphotoImg('/img/products/'.$ProductoFotoValue);
                             }else{
                                 $ProductoFoto->setByName($ProductoFotoKey, $ProductoFotoValue, BasePeer::TYPE_FIELDNAME);
                             }
@@ -102,7 +109,7 @@ class ProductoFotoController extends AbstractActionController
     public function listarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             // Instanciamos nuestro formulario productoFotoForm
             $productoFotoForm = new ProductoFotoForm();
@@ -129,10 +136,10 @@ class ProductoFotoController extends AbstractActionController
             // Obtenemos el filtrado por medio del idcompany del recurso.
             $result = $productoFotoQuery->paginate($page,$limit);
 
-            $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+            //$data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
 
             return new ViewModel(array(
-                'productoFotos' => $data,
+                'productoFotos' => $result,
             ));
         }else{
             $this->layout('layout/layoutAuth');
@@ -143,7 +150,7 @@ class ProductoFotoController extends AbstractActionController
     public function editarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -223,7 +230,7 @@ class ProductoFotoController extends AbstractActionController
     public function eliminarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -234,19 +241,26 @@ class ProductoFotoController extends AbstractActionController
             if ($request->isPost()) {
                 $del = $request->getPost('del', 'No');
 
-                if ($del == 'Yes') {
+                if ($del == 'Si') {
                     $id = (int) $request->getPost('id');
-                    ProductphotoQuery::create()->filterByIdproductphoto($id)->delete();
+                    $ProductphotoQuery = ProductphotoQuery::create()->filterByIdproductphoto($id)->findOne();
+                    // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
+                    $dirFile = DELETE_IMG.$ProductphotoQuery->getProductphotoImg();
+                    if(unlink($dirFile)){//El archivo fue borrado.
+                        ProductphotoQuery::create()->filterByIdproductphoto($id)->delete();
+                    }else{
+                        ProductphotoQuery::create()->filterByIdproductphoto($id)->delete();
+                    }
                 }
 
-                // Redireccionamos a los provedores
+                // Redireccionamos a las fotos
                 return $this->redirect()->toRoute('panel-producto-foto');
             }
 
-            $provedorEntity = ProductphotoQuery::create()->filterByIdproductphoto($id)->findOne();
+            $productoFotoEntity = ProductphotoQuery::create()->filterByIdproductphoto($id)->findOne();
             return array(
                 'id'    => $id,
-                'productoFoto' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
+                'productoFoto' => $productoFotoEntity
             );
         }else{
             $this->layout('layout/layoutAuth');

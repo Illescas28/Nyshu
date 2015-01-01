@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class CategoriaForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct(array $icons = null)
     {
         // we want to ignore the name passed
         parent::__construct('CategoriaForm');
@@ -21,6 +21,15 @@ class CategoriaForm extends Form
             'type' => 'Text',
             'options' => array(
                 'label' => 'Nombre de Categoría',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'category_icon',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Icono',
+                'empty_option' => 'Seleccione una clase de icono',
+                'value_options' => $icons,
             ),
         ));
         $this->add(array(

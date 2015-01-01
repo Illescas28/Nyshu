@@ -6,11 +6,13 @@ use Zend\Form\Form;
 
 class ProductoFotoForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct(array $productos = null)
     {
         // we want to ignore the name passed
         parent::__construct('ProductoFoto');
         $this->setAttribute('method', 'post');
+        $this->setAttribute('enctype','multipart/form-data');
+
 
         $this->add(array(
             'name' => 'idproductphoto',
@@ -18,15 +20,18 @@ class ProductoFotoForm extends Form
         ));
         $this->add(array(
             'name' => 'idproduct',
-            'type' => 'Text',
+            'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'ID Producto',
+                'label' => 'Productos',
+                'empty_option' => 'Seleccione un producto',
+                'value_options' => $productos,
             ),
         ));
         $this->add(array(
             'name' => 'productphoto_img',
             'attributes' => array(
                 'type'  => 'file',
+                'class' => 'pointer'
             ),
             'options' => array(
                 'label' => 'Imagen',

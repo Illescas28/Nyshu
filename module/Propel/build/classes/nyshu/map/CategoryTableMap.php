@@ -40,6 +40,7 @@ class CategoryTableMap extends TableMap
         // columns
         $this->addPrimaryKey('idcategory', 'Idcategory', 'INTEGER', true, null, null);
         $this->addColumn('category_name', 'CategoryName', 'VARCHAR', true, 255, null);
+        $this->addColumn('category_icon', 'CategoryIcon', 'VARCHAR', false, 45, null);
         // validators
     } // initialize()
 

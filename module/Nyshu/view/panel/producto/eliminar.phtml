@@ -4,25 +4,19 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
-<p>Are you sure that you want to delete?</p>
+<p>¿Estás seguro que deseas eliminar el elemento?</p>
 <table class="table">
     <tr>
-        <th>ID Producto</th>
-        <th>ID Categoría</th>
-        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Producto</th>
         <th>Descripción</th>
-        <th>Precio</th>
-        <th>Largo</th>
-        <th>Alto</th>
+        <th>Imagen Url</th>
     </tr>
         <tr>
-            <td><?php echo $this->escapeHtml($producto['idproduct']);?></td>
-            <td><?php echo $this->escapeHtml($producto['idcategory']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_name']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_description']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_price']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_long']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_high']);?></td>
+            <td><?php echo $this->escapeHtml($producto->getCategory()->getCategoryName());?></td>
+            <td><?php echo $this->escapeHtml($producto->getProductName());?></td>
+            <td><?php echo $this->escapeHtml($producto->getProductDescription());?></td>
+            <td><?php echo $this->escapeHtml($producto->getProductImg());?></td>
         </tr>
 </table>
 <?php
@@ -33,8 +27,8 @@ $url = $this->url('panel-producto', array(
 ?>
 <form action="<?php echo $url; ?>" method="post">
     <div>
-        <input type="hidden" name="id" value="<?php echo (int) $producto['idproduct']; ?>" />
-        <input type="submit" name="del" value="Yes" />
+        <input type="hidden" name="id" value="<?php echo (int) $producto->getIdproduct(); ?>" />
+        <input type="submit" name="del" value="Si" />
         <input type="submit" name="del" value="No" />
     </div>
 </form>

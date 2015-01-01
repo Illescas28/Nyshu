@@ -9,7 +9,7 @@
         echo $this->form()->openTag($form);
         ?>
         <div class="row">
-            <div class="input-field col s2 offset-s4">
+            <div class="input-field col s6 m2 offset-m4">
                 <i class="mdi-action-account-circle prefix"></i>
                 <?php  echo $this->formText($form->get('user_name')); ?>
                 <?php  echo $this->formLabel($form->get('user_name'));
@@ -23,7 +23,7 @@
                     </div>
                 <?php  endif;?>
             </div>
-            <div class="input-field col s2 ">
+            <div class="input-field col s6 m2 ">
                 <i class="mdi-action-lock prefix"></i>
                 <?php  echo $this->formPassword($form->get('user_password')); ?>
                 <?php  echo $this->formLabel($form->get('user_password'));

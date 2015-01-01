@@ -5,38 +5,93 @@ $this->headTitle($title);
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
 <?php
-if(!$Error){
-
-    $productoForm = $this->productoForm;
-    $productoForm->setAttribute('action', $this->url(
+    $form = $this->productoForm;
+    $form->setAttribute('action', $this->url(
         'panel-producto',
         array(
             'action' => 'editar',
             'id'     => $this->id,
         )
     ));
-    $productoForm->prepare();
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    ?>
 
-    echo $this->form()->openTag($productoForm);
-    echo $this->form()->openTag($productoForm);
-    echo $this->formHidden($productoForm->get('idproduct'));
-    echo $this->formRow($productoForm->get('idcategory'));
-    echo $this->formRow($productoForm->get('product_name'));
-    echo $this->formRow($productoForm->get('product_description'));
-    echo $this->formRow($productoForm->get('product_price'));
-    echo $this->formRow($productoForm->get('product_long'));
-    echo $this->formRow($productoForm->get('product_high'));
-    echo $this->formSubmit($productoForm->get('submit'));
-    //echo $this->formCollection($ArticuloForm);
+    <div class="row">
+        <div class="input-field col s6 m6 l6">
+            <?php echo $this->formSelect($form->get('idcategory'));
+            $showError=$this->formElementErrors($form->get('idcategory'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-action-loyalty prefix"></i>
+            <?php  echo $this->formText($form->get('product_name')); ?>
+            <?php  echo $this->formLabel($form->get('product_name'));
+            $showError=$this->formElementErrors($form->get('product_name'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-file-file-upload prefix"></i>
+            <?php echo $this->formRow($form->get('product_img'));
+            $showError=$this->formElementErrors($form->get('product_img'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+        <div class="input-field col s6 m6 l6">
+            <i class="mdi-editor-border-color prefix"></i>
+            <?php  echo $this->formText($form->get('product_description')); ?>
+            <?php  echo $this->formLabel($form->get('product_description'));
+            $showError=$this->formElementErrors($form->get('product_description'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="input-field col s6">
+        <?php  echo $this->formButton($form->get('submit')); ?>
+    </div>
+    <?php
     echo $this->form()->closeTag();
-}else{
-    foreach ($Error as $errorValue){
-        echo $errorValue;
-    }
-}
 ?>
 <script>
-$(document).ready(function() {
-    $('select').material_select();
-});
+    $(document).ready(function() {
+        $('select').material_select();
+    });
 </script>

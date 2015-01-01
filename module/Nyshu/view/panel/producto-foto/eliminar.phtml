@@ -4,18 +4,20 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
-<p>Are you sure that you want to delete?</p>
+<p>¿Estás seguro que deseas eliminar la foto?</p>
 <table class="table">
+    <thead>
     <tr>
-        <th>ID Foto</th>
-        <th>ID Producto</th>
-        <th>URL</th>
+        <th>Producto</th>
+        <th>Foto (URL)</th>
     </tr>
+    </thead>
+    <tbody>
         <tr>
-            <td><?php echo $this->escapeHtml($productoFoto['idproductphoto']);?></td>
-            <td><?php echo $this->escapeHtml($productoFoto['idproduct']);?></td>
-            <td><?php echo $this->escapeHtml($productoFoto['productphoto_img']);?></td>
+            <td><?php echo $this->escapeHtml($productoFoto->getProduct()->getProductName());?></td>
+            <td><?php echo $this->escapeHtml($productoFoto->getProductphotoImg());?></td>
         </tr>
+    </tbody>
 </table>
 <?php
 $url = $this->url('panel-producto-foto', array(
@@ -25,8 +27,8 @@ $url = $this->url('panel-producto-foto', array(
 ?>
 <form action="<?php echo $url; ?>" method="post">
     <div>
-        <input type="hidden" name="id" value="<?php echo (int) $productoFoto['idproductphoto']; ?>" />
-        <input type="submit" name="del" value="Yes" />
+        <input type="hidden" name="id" value="<?php echo (int) $productoFoto->getIdproductphoto(); ?>" />
+        <input type="submit" name="del" value="Si" />
         <input type="submit" name="del" value="No" />
     </div>
 </form>

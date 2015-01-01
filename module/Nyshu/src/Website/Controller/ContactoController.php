@@ -29,12 +29,13 @@ class ContactoController extends AbstractActionController
 {
 
     private function sendMail($sMail,$sName,$sText){
+
         $mail=new Message();
         $mail->setEncoding("UTF-8");
         $mail->setFrom($sMail, $sName);
         $mail->setBody($sText);
-        $mail->setSubject("Contacto desde formulario de sitio Nyshu.com");
-        $mail->setTo("carlos.esparza.i@hotmail.com");
+        $mail->setSubject("Contacto desde formulario de sitio nyshu.net");
+        $mail->setTo("contacto@nyshu.net");
 
         $sender=new Sendmail();
         $sender->send($mail);

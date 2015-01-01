@@ -1,0 +1,44 @@
+<?php $this->headTitle()->prepend('Produtos Nyshu') ?>
+<div class="row">
+    <div class="col s11 m3 l3">
+        <blockquote>
+            <h4 class="grey-text text-darken-3"><?php echo $this->product->getCategory()->getCategoryName()?></h4>
+        </blockquote>
+        <ul class="collection">
+            <!-- Menu lateral -->
+            <a href="http://nyshu.net/category/<?php echo $this->product->getIdcategory()?>/productos/ver/<?php echo $this->product->getIdproduct()?>" class="collection-item"><?php echo $this->product->getProductName() ?><span class="badge"></span></a>
+        </ul>
+    </div>
+
+    <div class="col s12 m9 l9 parallax-container">
+        <blockquote style="border-left: 5px solid #26a69a">
+            <h4 class="grey-text text-darken-3">Características</h4>
+        </blockquote>
+        <div class="col s12 m8 l9">
+            <div class="sliderproduct">
+                <ul class="slidesproduct materialboxed" data-caption="Atrévete a disfrutar del mas delicioso sabor de Nyshu en compañía de tus seres queridos">
+                    <?php foreach($this->productphoto as $productphotoEntity):
+                        if($productphotoEntity->getIdproductphoto() != null){?>
+                            <li>
+                                <img src="<?php echo $productphotoEntity->getProductphotoImg()?>">
+                            </li>
+                        <?php }?>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col s12 m4 l3">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title"><?php echo $this->product->getProductName()?></span>
+                    <p class="card_line"><?php echo $this->product->getProductDescription()?></p>
+                </div>
+                <div class="card-action center">
+                    <a href="http://nyshu.net/contacto" id="download-button" class="btn-large waves-effect waves-light purple white-text">Ordenar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

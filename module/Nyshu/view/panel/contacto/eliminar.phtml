@@ -1,0 +1,28 @@
+<?php
+$title = 'Eliminar categoría';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>¿Estás seguro que deseas eliminar el elemento?</p>
+<table class="table">
+    <tr>
+        <th>Nombre del Contacto</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($contacto['contact_name']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('panel-contacto', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $contacto['idcontact']; ?>" />
+        <input type="submit" name="del" value="Si" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

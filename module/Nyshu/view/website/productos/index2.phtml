@@ -1,0 +1,75 @@
+<?php $this->headTitle()->prepend('Produtos Nyshu') ?>
+
+<div class="row">
+    <div class="col s10 m3">
+        <blockquote>
+            <h4 class="grey-text text-darken-3">Categorías</h4>
+        </blockquote>
+        <ul class="collection">
+            <?php
+
+            foreach ($this->category as $categoryEntity):
+                ?>
+                <?php
+                switch($categoryEntity['category_name']){
+                    case 'Pasteles':
+                        $iconCategory = 'img/icon/cake22.png';
+                        $producto = 'Pasteles';
+                        break;
+                    case 'Cupcakes':
+                        $iconCategory = 'img/icon/cake26.png';
+                        $producto = 'Cupcakes';
+                        break;
+                    case 'Brownies':
+                        $iconCategory = 'img/icon/cake29.png';
+                        $producto = 'Brownies';
+                        break;
+                    case 'Roscas':
+                        $iconCategory = 'img/icon/donut4.png';
+                        $producto = 'Roscas';
+                        break;
+                    case 'Gelatinas':
+                        $iconCategory = 'img/icon/donut7.png';
+                        $producto = 'Gelatinas';
+                        break;
+                    default:
+                        $iconCategory = 'img/icon/buy.png';
+                        break;
+                }
+                ?>
+                <!-- Menu lateral -->
+                <a href="<?php echo $this->url('website-productos', array('id' => $categoryEntity['idcategory']))?>" class="collection-item"><?php echo $categoryEntity['category_name'] ?><span class="badge"><img src="<?php echo $this->basePath($iconCategory) ?>"></span></a>
+            <?php endforeach;?>
+        </ul>
+    </div>
+
+    <div class="col s10 m9">
+        <blockquote style="border-left: 5px solid #26a69a">
+            <h4 class="grey-text text-darken-3"><?php echo isset($this->productos['category_name']) ? $this->productos['category_name'] : 'Productos'; ?></h4>
+        </blockquote>
+        <?php foreach ($this->productos['product_collection'] as $productEntity): ?>
+            <div class="col s12 m6 l4">
+                <div class="icon-block">
+                    <div class="col s12 center">
+                        <div id="<?php $productEntity['idproduct']?>" class="card small">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="<?php echo $this->basePath($productEntity['product_img']) ?>">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4"><?php echo $productEntity['product_name']?> <i class="mdi-navigation-more-vert right"></i></span>
+                                <!-- Modal Trigger -->
+                                <a class="waves-effect waves-light btn modal-trigger" href="<?php echo $this->url('website-productos', array('id' => $productEntity['idcategory']))?>ver/<?php echo $productEntity['idproduct']?>">Detalles</a>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4"><?php echo $productEntity['product_name']?> <i class="mdi-navigation-close right"></i></span>
+                                <p><?php echo htmlentities($productEntity['product_description'])?></p>
+                                <p>Precio: <?php echo htmlentities($productEntity['product_price'])?> MXN</p>
+                                <p>Tamaño: <?php echo htmlentities($productEntity['product_long'])?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach;?>
+    </div>
+</div>

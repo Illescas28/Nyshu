@@ -10,6 +10,7 @@
 return array(
     'router' => array(
         'routes' => array(
+            // Routes Panel
             'panel-login' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -20,6 +21,62 @@ return array(
                     'defaults' => array(
                         'controller' => 'Panel\Controller\Login',
                         'action'     => 'login',
+                    ),
+                ),
+            ),
+            'panel-element-img' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/elemento-imagen[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\ElementoImagen',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'panel-element-title' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/elemento-titulo[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\ElementoTitulo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'panel-element-text' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/elemento-texto[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\ElementoTexto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'panel-slides' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/slides[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\Slides',
+                        'action'     => 'listar',
                     ),
                 ),
             ),
@@ -65,6 +122,36 @@ return array(
                     ),
                 ),
             ),
+            'panel-servicios' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/servicios[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\Servicios',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'panel-contacto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/panel/contacto[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Panel\Controller\Contacto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+
+            // Routes Website
             'website-home' => array(
                 'type'=>'segment',
                 'options'=>array(
@@ -78,13 +165,35 @@ return array(
             'website-productos' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'=> '/category[/:id]/productos[/]',
-                    'defaults'=> array(
+                    'route'    => '/category[/:id]/productos[/:action][/:idproduct][/]',
+                    'constraints' => array(
+                        'action' => 'ver',
+                        'id'     => '[0-9]+',
+                        'idproduct'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
                         'controller' => 'Website\Controller\Productos',
                         'action'     => 'index',
                     ),
-                    'constrains' => array(
-                        'id' => '[0-9]*'
+                ),
+            ),
+            'website-servicios' => array(
+                'type'=>'segment',
+                'options'=>array(
+                    'route'=> '/servicios',
+                    'defaults'=> array(
+                        'controller' => 'Website\Controller\Servicios',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'website-nosotros' => array(
+                'type'=>'segment',
+                'options'=>array(
+                    'route'=> '/nosotros',
+                    'defaults'=> array(
+                        'controller' => 'Website\Controller\Nosotros',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -126,13 +235,21 @@ return array(
         'invokables' => array(
             // Panel
             'Panel\Controller\Login'            => 'Panel\Controller\Login\LoginController',
+            'Panel\Controller\ElementoImagen'   => 'Panel\Controller\ElementoImagen\ElementoImagenController',
+            'Panel\Controller\ElementoTexto'    => 'Panel\Controller\ElementoTexto\ElementoTextoController',
+            'Panel\Controller\ElementoTitulo'   => 'Panel\Controller\ElementoTitulo\ElementoTituloController',
+            'Panel\Controller\Slides'           => 'Panel\Controller\Slides\SlidesController',
             'Panel\Controller\Categoria'        => 'Panel\Controller\Categoria\CategoriaController',
             'Panel\Controller\Producto'         => 'Panel\Controller\Producto\ProductoController',
             'Panel\Controller\ProductoFoto'     => 'Panel\Controller\ProductoFoto\ProductoFotoController',
+            'Panel\Controller\Servicios'        => 'Panel\Controller\Servicios\ServiciosController',
+            'Panel\Controller\Contacto'         => 'Panel\Controller\Contacto\ContactoController',
 
             // Website
             'Website\Controller\Index'      => 'Website\Controller\IndexController',
             'Website\Controller\Productos'  => 'Website\Controller\ProductosController',
+            'Website\Controller\Servicios'  => 'Website\Controller\ServiciosController',
+            'Website\Controller\Nosotros'   => 'Website\Controller\NosotrosController',
             'Website\Controller\Contacto'   => 'Website\Controller\ContactoController',
         ),
     ),

@@ -4,15 +4,15 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
-<p>Are you sure that you want to delete?</p>
+<p>¿Estás seguro que deseas eliminar el elemento?</p>
 <table class="table">
     <tr>
-        <th>ID Categoría</th>
         <th>Nombre de Categoría</th>
+        <th>Nombre del ícono</th>
     </tr>
         <tr>
-            <td><?php echo $this->escapeHtml($categoria['idcategory']);?></td>
             <td><?php echo $this->escapeHtml($categoria['category_name']);?></td>
+            <td><?php echo $this->escapeHtml($categoria['category_icon']);?></td>
         </tr>
 </table>
 <?php
@@ -24,7 +24,7 @@ $url = $this->url('panel-categoria', array(
 <form action="<?php echo $url; ?>" method="post">
     <div>
         <input type="hidden" name="id" value="<?php echo (int) $categoria['idcategory']; ?>" />
-        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="Si" />
         <input type="submit" name="del" value="No" />
     </div>
 </form>

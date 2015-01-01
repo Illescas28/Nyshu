@@ -1,0 +1,30 @@
+<?php
+$title = 'Eliminar elemento texto';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>¿Estás seguro que deseas eliminar el elemento?</p>
+<table class="table">
+    <tr>
+        <th>Descripción</th>
+        <th>Clase de ícono</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($elementtext['elementtext_description']);?></td>
+            <td><?php echo $this->escapeHtml($elementtext['elementtext_icon']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('panel-element-text', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $elementtext['idelementtext']; ?>" />
+        <input type="submit" name="del" value="Si" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

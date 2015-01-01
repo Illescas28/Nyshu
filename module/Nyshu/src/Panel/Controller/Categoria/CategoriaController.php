@@ -21,9 +21,19 @@ class CategoriaController extends AbstractActionController
     public function nuevoAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
-            $CategoriaForm = new CategoriaForm();
+            $icons = array(
+                'pastel' => 'pastel',
+                'cupcake' => 'cupcake',
+                'brownie' => 'brownie',
+                'rosca' => 'rosca',
+                'gelatina' => 'gelatina',
+                'hotcake' => 'hotcake',
+                'null' => 'nada',
+            );
+
+            $CategoriaForm = new CategoriaForm($icons);
             $CategoriaForm->get('submit')->setValue('Nuevo');
 
             $request = $this->getRequest();
@@ -54,32 +64,12 @@ class CategoriaController extends AbstractActionController
     public function listarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
-            // Instanciamos nuestro formulario categoriaForm
-            $categoriaForm = new CategoriaForm();
-
-            // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
-            $allowedColumns = array();
-            foreach ($categoriaForm->getElements() as $key=>$value){
-                array_push($allowedColumns, $key);
-            }
-            //Verificamos que si nos envian filtros  si no ponemos valores por default
-            $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 100;
-            if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
-            $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
-            $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idcategory';
-            $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
 
             $categoriaQuery = new CategoryQuery();
 
-            //Order y Dir
-            if($order !=null || $dir !=null){
-                $categoriaQuery->orderBy($order, $dir);
-            }
-
-            // Obtenemos el filtrado por medio del idcompany del recurso.
-            $result = $categoriaQuery->paginate($page,$limit);
+            $result = $categoriaQuery->paginate(1,50000);
 
             $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
 
@@ -95,7 +85,7 @@ class CategoriaController extends AbstractActionController
     public function editarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -114,7 +104,19 @@ class CategoriaController extends AbstractActionController
                 //Instanciamos nuestra categoriaQuery
                 $categoriaPKQuery = $categoriaQuery->findPk($id);
                 $categoriaQueryArray = $categoriaPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-                $CategoriaForm = new CategoriaForm();
+
+                $icons = array(
+                    'pastel' => 'pastel',
+                    'cupcake' => 'cupcake',
+                    'brownie' => 'brownie',
+                    'rosca' => 'rosca',
+                    'gelatina' => 'gelatina',
+                    'hotcake' => 'hotcake',
+                    'pay' => 'pay',
+                    'null' => 'nada',
+                );
+
+                $CategoriaForm = new CategoriaForm($icons);
                 $ElementsCategoriaForm = $CategoriaForm->getElements();
 
                 if ($request->isPost()){
@@ -175,7 +177,7 @@ class CategoriaController extends AbstractActionController
     public function eliminarAction()
     {
         session_start();
-        if($_SESSION['user_name'] == 'nyshu'){
+        if(\UserQuery::create()->filterByUserName($_SESSION['user_name'])->filterByUserPassword($_SESSION['user_password'])->exists()){
             $this->layout('layout/layoutPanel');
             $id = (int) $this->params()->fromRoute('id', 0);
             if (!$id) {
@@ -186,19 +188,19 @@ class CategoriaController extends AbstractActionController
             if ($request->isPost()) {
                 $del = $request->getPost('del', 'No');
 
-                if ($del == 'Yes') {
+                if ($del == 'Si') {
                     $id = (int) $request->getPost('id');
                     CategoryQuery::create()->filterByIdcategory($id)->delete();
                 }
 
-                // Redireccionamos a los provedores
+                // Redireccionamos a los categorias
                 return $this->redirect()->toRoute('panel-categoria');
             }
 
-            $provedorEntity = CategoryQuery::create()->filterByIdcategory($id)->findOne();
+            $categoriaEntity = CategoryQuery::create()->filterByIdcategory($id)->findOne();
             return array(
                 'id'    => $id,
-                'categoria' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
+                'categoria' => $categoriaEntity->toArray(BasePeer::TYPE_FIELDNAME)
             );
         }else{
             $this->layout('layout/layoutAuth');

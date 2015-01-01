@@ -39,9 +39,9 @@ class ContactTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idcontact', 'Idcontact', 'INTEGER', true, null, null);
-        $this->addColumn('contact_name', 'ContactName', 'VARCHAR', true, 45, null);
-        $this->addColumn('contact_email', 'ContactEmail', 'VARCHAR', true, 45, null);
-        $this->addColumn('contact_phone', 'ContactPhone', 'VARCHAR', false, 45, null);
+        $this->addColumn('contact_name', 'ContactName', 'VARCHAR', true, 255, null);
+        $this->addColumn('contact_email', 'ContactEmail', 'VARCHAR', true, 255, null);
+        $this->addColumn('contact_phone', 'ContactPhone', 'VARCHAR', false, 255, null);
         $this->addColumn('contact_message', 'ContactMessage', 'VARCHAR', true, 255, null);
         // validators
     } // initialize()

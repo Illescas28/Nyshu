@@ -42,9 +42,7 @@ class ProductTableMap extends TableMap
         $this->addForeignKey('idcategory', 'Idcategory', 'INTEGER', 'category', 'idcategory', true, null, null);
         $this->addColumn('product_name', 'ProductName', 'VARCHAR', true, 255, null);
         $this->addColumn('product_description', 'ProductDescription', 'VARCHAR', true, 45, null);
-        $this->addColumn('product_price', 'ProductPrice', 'DECIMAL', true, 10, null);
-        $this->addColumn('product_long', 'ProductLong', 'DECIMAL', false, 10, null);
-        $this->addColumn('product_high', 'ProductHigh', 'DECIMAL', false, 10, null);
+        $this->addColumn('product_img', 'ProductImg', 'VARCHAR', true, 45, null);
         // validators
     } // initialize()
 

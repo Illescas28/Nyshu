@@ -8,33 +8,31 @@ $this->headTitle($title);
     <a href="<?php echo $this->url('panel-producto', array('action'=>'nuevo'));?>">Nuevo Producto</a>
 </p>
 
-<table class="table">
-    <tr>
-        <th>ID Producto</th>
-        <th>ID Categoría</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Largo</th>
-        <th>Alto</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php
-    foreach ($productos as $producto) : ?>
+<table class="table striped">
+    <thead>
         <tr>
-            <td><?php echo $this->escapeHtml($producto['idproduct']);?></td>
-            <td><?php echo $this->escapeHtml($producto['idcategory']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_name']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_description']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_price']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_long']);?></td>
-            <td><?php echo $this->escapeHtml($producto['product_high']);?></td>
-            <td>
-                <a href="<?php echo $this->url('panel-producto',
-                    array('action'=>'editar', 'id' => $producto['idproduct']));?>">Editar</a>
-                <a href="<?php echo $this->url('panel-producto',
-                    array('action'=>'eliminar', 'id' => $producto['idproduct']));?>">Eliminar</a>
-            </td>
+            <th>Categoría</th>
+            <th>Producto</th>
+            <th>Descripción</th>
+            <th>Imagen Url</th>
+            <th>Opciones</th>
         </tr>
-    <?php endforeach; ?>
+    </thead>
+    <tbody>
+        <?php
+        foreach ($productos as $producto) : ?>
+            <tr>
+                <td><?php echo $this->escapeHtml($producto->getCategory()->getCategoryName());?></td>
+                <td><?php echo $this->escapeHtml($producto->getProductName());?></td>
+                <td><?php echo $this->escapeHtml($producto->getProductDescription());?></td>
+                <td><?php echo $this->escapeHtml($producto->getProductImg());?></td>
+                <td>
+                    <a href="<?php echo $this->url('panel-producto',
+                        array('action'=>'editar', 'id' => $producto->getIdproduct()));?>">Editar</a>
+                    <a href="<?php echo $this->url('panel-producto',
+                        array('action'=>'eliminar', 'id' => $producto->getIdproduct()));?>">Eliminar</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>

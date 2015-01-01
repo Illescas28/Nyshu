@@ -10,17 +10,13 @@
  * @method ProductQuery orderByIdcategory($order = Criteria::ASC) Order by the idcategory column
  * @method ProductQuery orderByProductName($order = Criteria::ASC) Order by the product_name column
  * @method ProductQuery orderByProductDescription($order = Criteria::ASC) Order by the product_description column
- * @method ProductQuery orderByProductPrice($order = Criteria::ASC) Order by the product_price column
- * @method ProductQuery orderByProductLong($order = Criteria::ASC) Order by the product_long column
- * @method ProductQuery orderByProductHigh($order = Criteria::ASC) Order by the product_high column
+ * @method ProductQuery orderByProductImg($order = Criteria::ASC) Order by the product_img column
  *
  * @method ProductQuery groupByIdproduct() Group by the idproduct column
  * @method ProductQuery groupByIdcategory() Group by the idcategory column
  * @method ProductQuery groupByProductName() Group by the product_name column
  * @method ProductQuery groupByProductDescription() Group by the product_description column
- * @method ProductQuery groupByProductPrice() Group by the product_price column
- * @method ProductQuery groupByProductLong() Group by the product_long column
- * @method ProductQuery groupByProductHigh() Group by the product_high column
+ * @method ProductQuery groupByProductImg() Group by the product_img column
  *
  * @method ProductQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ProductQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -40,17 +36,13 @@
  * @method Product findOneByIdcategory(int $idcategory) Return the first Product filtered by the idcategory column
  * @method Product findOneByProductName(string $product_name) Return the first Product filtered by the product_name column
  * @method Product findOneByProductDescription(string $product_description) Return the first Product filtered by the product_description column
- * @method Product findOneByProductPrice(string $product_price) Return the first Product filtered by the product_price column
- * @method Product findOneByProductLong(string $product_long) Return the first Product filtered by the product_long column
- * @method Product findOneByProductHigh(string $product_high) Return the first Product filtered by the product_high column
+ * @method Product findOneByProductImg(string $product_img) Return the first Product filtered by the product_img column
  *
  * @method array findByIdproduct(int $idproduct) Return Product objects filtered by the idproduct column
  * @method array findByIdcategory(int $idcategory) Return Product objects filtered by the idcategory column
  * @method array findByProductName(string $product_name) Return Product objects filtered by the product_name column
  * @method array findByProductDescription(string $product_description) Return Product objects filtered by the product_description column
- * @method array findByProductPrice(string $product_price) Return Product objects filtered by the product_price column
- * @method array findByProductLong(string $product_long) Return Product objects filtered by the product_long column
- * @method array findByProductHigh(string $product_high) Return Product objects filtered by the product_high column
+ * @method array findByProductImg(string $product_img) Return Product objects filtered by the product_img column
  *
  * @package    propel.generator.nyshu.om
  */
@@ -158,7 +150,7 @@ abstract class BaseProductQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idproduct`, `idcategory`, `product_name`, `product_description`, `product_price`, `product_long`, `product_high` FROM `product` WHERE `idproduct` = :p0';
+        $sql = 'SELECT `idproduct`, `idcategory`, `product_name`, `product_description`, `product_img` FROM `product` WHERE `idproduct` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -392,129 +384,32 @@ abstract class BaseProductQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the product_price column
+     * Filter the query on the product_img column
      *
      * Example usage:
      * <code>
-     * $query->filterByProductPrice(1234); // WHERE product_price = 1234
-     * $query->filterByProductPrice(array(12, 34)); // WHERE product_price IN (12, 34)
-     * $query->filterByProductPrice(array('min' => 12)); // WHERE product_price >= 12
-     * $query->filterByProductPrice(array('max' => 12)); // WHERE product_price <= 12
+     * $query->filterByProductImg('fooValue');   // WHERE product_img = 'fooValue'
+     * $query->filterByProductImg('%fooValue%'); // WHERE product_img LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $productPrice The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $productImg The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProductQuery The current query, for fluid interface
      */
-    public function filterByProductPrice($productPrice = null, $comparison = null)
+    public function filterByProductImg($productImg = null, $comparison = null)
     {
-        if (is_array($productPrice)) {
-            $useMinMax = false;
-            if (isset($productPrice['min'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_PRICE, $productPrice['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($productPrice['max'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_PRICE, $productPrice['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($productImg)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $productImg)) {
+                $productImg = str_replace('*', '%', $productImg);
+                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProductPeer::PRODUCT_PRICE, $productPrice, $comparison);
-    }
-
-    /**
-     * Filter the query on the product_long column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByProductLong(1234); // WHERE product_long = 1234
-     * $query->filterByProductLong(array(12, 34)); // WHERE product_long IN (12, 34)
-     * $query->filterByProductLong(array('min' => 12)); // WHERE product_long >= 12
-     * $query->filterByProductLong(array('max' => 12)); // WHERE product_long <= 12
-     * </code>
-     *
-     * @param     mixed $productLong The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ProductQuery The current query, for fluid interface
-     */
-    public function filterByProductLong($productLong = null, $comparison = null)
-    {
-        if (is_array($productLong)) {
-            $useMinMax = false;
-            if (isset($productLong['min'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_LONG, $productLong['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($productLong['max'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_LONG, $productLong['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ProductPeer::PRODUCT_LONG, $productLong, $comparison);
-    }
-
-    /**
-     * Filter the query on the product_high column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByProductHigh(1234); // WHERE product_high = 1234
-     * $query->filterByProductHigh(array(12, 34)); // WHERE product_high IN (12, 34)
-     * $query->filterByProductHigh(array('min' => 12)); // WHERE product_high >= 12
-     * $query->filterByProductHigh(array('max' => 12)); // WHERE product_high <= 12
-     * </code>
-     *
-     * @param     mixed $productHigh The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ProductQuery The current query, for fluid interface
-     */
-    public function filterByProductHigh($productHigh = null, $comparison = null)
-    {
-        if (is_array($productHigh)) {
-            $useMinMax = false;
-            if (isset($productHigh['min'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_HIGH, $productHigh['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($productHigh['max'])) {
-                $this->addUsingAlias(ProductPeer::PRODUCT_HIGH, $productHigh['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ProductPeer::PRODUCT_HIGH, $productHigh, $comparison);
+        return $this->addUsingAlias(ProductPeer::PRODUCT_IMG, $productImg, $comparison);
     }
 
     /**

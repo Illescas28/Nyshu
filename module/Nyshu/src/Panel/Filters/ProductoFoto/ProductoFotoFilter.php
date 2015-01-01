@@ -40,7 +40,7 @@ class ProductoFotoFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'productphoto_img',
-                'required' => false,
+                'required' => true,
             ));
 
             $this->inputFilter = $inputFilter;
