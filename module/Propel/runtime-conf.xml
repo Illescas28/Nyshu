@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <propel>
+        <datasources default="muebleria">
+            <datasource id="muebleria">
+                <adapter>mysql</adapter> <!-- sqlite, mysql, myssql, oracle, or pgsql -->
+                <connection>
+                    <dsn>mysql:host=10.10.10.2;dbname=muebleria</dsn>
+                    <user>root</user>
+                    <password>muebleria</password>
+                </connection>
+            </datasource>
+        </datasources>
+    </propel>
+</config>
