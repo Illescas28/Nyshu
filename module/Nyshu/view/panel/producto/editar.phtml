@@ -1,0 +1,42 @@
+<?php
+$title = 'Editar producto';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $productoForm = $this->productoForm;
+    $productoForm->setAttribute('action', $this->url(
+        'panel-producto',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $productoForm->prepare();
+
+    echo $this->form()->openTag($productoForm);
+    echo $this->form()->openTag($productoForm);
+    echo $this->formHidden($productoForm->get('idproduct'));
+    echo $this->formRow($productoForm->get('idcategory'));
+    echo $this->formRow($productoForm->get('product_name'));
+    echo $this->formRow($productoForm->get('product_description'));
+    echo $this->formRow($productoForm->get('product_price'));
+    echo $this->formRow($productoForm->get('product_long'));
+    echo $this->formRow($productoForm->get('product_high'));
+    echo $this->formSubmit($productoForm->get('submit'));
+    //echo $this->formCollection($ArticuloForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}
+?>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>

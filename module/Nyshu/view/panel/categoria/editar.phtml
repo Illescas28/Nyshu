@@ -1,0 +1,47 @@
+<?php
+$title = 'Editar categoria';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+    $productoForm = $this->categoriaForm;
+    $productoForm->setAttribute('action', $this->url(
+        'panel-categoria',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $productoForm->prepare();
+
+    echo $this->form()->openTag($productoForm); ?>
+    <div class="row">
+        <div class="input-field col s6">
+            <i class="mdi-social-cake prefix"></i>
+            <?php  echo $this->formText($productoForm->get('category_name')); ?>
+            <?php  echo $this->formLabel($productoForm->get('category_name'));
+            $showError=$this->formElementErrors($productoForm->get('category_name'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="input-field col s6">
+        <?php  echo $this->formButton($productoForm->get('submit')); ?>
+    </div>
+    <?php
+    echo $this->form()->closeTag();
+?>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>

@@ -1,0 +1,30 @@
+<?php
+
+$title = 'Mis Fotos de productos';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('panel-producto-foto', array('action'=>'nuevo'));?>">Nueva Foto</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID Foto</th>
+        <th>ID Producto</th>
+        <th>URL</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php
+    foreach ($productoFotos as $productoFoto) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($productoFoto['idproductphoto']);?></td>
+            <td><?php echo $this->escapeHtml($productoFoto['idproduct']);?></td>
+            <td><?php echo $this->escapeHtml($productoFoto['productphoto_img']);?></td>
+            <td>
+                <a href="<?php echo $this->url('panel-producto-foto',
+                    array('action'=>'eliminar', 'id' => $productoFoto['idproductphoto']));?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -1,0 +1,40 @@
+<?php
+
+$title = 'Mis Productos';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('panel-producto', array('action'=>'nuevo'));?>">Nuevo Producto</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID Producto</th>
+        <th>ID Categoría</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Largo</th>
+        <th>Alto</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php
+    foreach ($productos as $producto) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($producto['idproduct']);?></td>
+            <td><?php echo $this->escapeHtml($producto['idcategory']);?></td>
+            <td><?php echo $this->escapeHtml($producto['product_name']);?></td>
+            <td><?php echo $this->escapeHtml($producto['product_description']);?></td>
+            <td><?php echo $this->escapeHtml($producto['product_price']);?></td>
+            <td><?php echo $this->escapeHtml($producto['product_long']);?></td>
+            <td><?php echo $this->escapeHtml($producto['product_high']);?></td>
+            <td>
+                <a href="<?php echo $this->url('panel-producto',
+                    array('action'=>'editar', 'id' => $producto['idproduct']));?>">Editar</a>
+                <a href="<?php echo $this->url('panel-producto',
+                    array('action'=>'eliminar', 'id' => $producto['idproduct']));?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

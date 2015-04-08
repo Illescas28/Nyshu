@@ -1,0 +1,354 @@
+<?php
+
+if ( !empty($_POST)) {
+
+    $prospectNameError = null;
+    $prospectEmailError = null;
+    $prospectCommentError = null;
+
+    $prospectName = $_POST['name'];
+    $prospectEmail = $_POST['email'];
+    $prospectComment = $_POST['comment'];
+
+    $valid = true;
+
+    // Si la variable $prospectName esta vacia
+    if (empty($prospectName)) {
+        $prospectNameError = 'Ingrese su nombre por favor.';
+        $valid = false;
+    }
+
+    // Si la variable $prospectEmail esta vacia
+    if (empty($prospectEmail)) {
+        $prospectEmailError = 'Ingrese su correo por favor';
+        $valid = false;
+    } else if ( !filter_var($prospectEmail,FILTER_VALIDATE_EMAIL) ) {
+        $prospectEmailError = 'Por favor ingrese un correo valido.';
+        $valid = false;
+    }
+
+    // Si la variable $prospectComment esta vacia
+    if (empty($prospectComment)) {
+        $prospectCommentError = 'Ingresa un comentario por favor';
+        $valid = false;
+    }
+
+    // Si $valid es igual a true enviamos el mensaje
+    if ($valid) {
+
+        /*
+        error_reporting(0);
+        $para      = "carlos.esparza.i@hotmail.com";
+        $titulo    = 'Nuevo comentario desde nyshu.com.mx';
+        $phone = isset($_POST['phone'])?$_POST['phone']:'No envió número teléfónico';
+        $cabeceras = 'From: ' . $prospectEmail . ", del Nombre:".$prospectName."\r\n";
+        $cabeceras .= "X-Mailer: PHP/" . phpversion() . " \r\n";
+        $cabeceras .= "Mime-Version: 1.0 \r\n";
+        $cabeceras .= "Content-Type: text/plain";
+
+        $mensaje = "Este mensaje fue enviado por " . $prospectName . " \r\n";
+        $mensaje .= "Su email es: " . $prospectEmail . " \r\n";
+        $mensaje .= "Su teléfono es: " . $phone . " \r\n";
+        $mensaje .= "Mensaje: " . $prospectComment . "\r\n";
+        $mensaje .= "Enviado el " . date('d/m/Y', time());
+        mail($para, $titulo, utf8_decode($mensaje), $cabeceras);
+
+        header("Location: emailOk.html");
+        */
+
+        // primero hay que incluir la clase phpmailer para poder instanciar
+        //un objeto de la misma
+        require 'includes/class.phpmailer.php';
+
+        //instanciamos un objeto de la clase phpmailer al que llamamos
+        //por ejemplo mail
+        $mail = new phpmailer();
+
+        //Definimos las propiedades y llamamos a los métodos
+        //correspondientes del objeto mail
+
+        //Con PluginDir le indicamos a la clase phpmailer donde se
+        //encuentra la clase smtp que como he comentado al principio de
+        //este ejemplo va a estar en el subdirectorio includes
+        $mail->PluginDir = 'includes/';
+
+        //Con la propiedad Mailer le indicamos que vamos a usar un
+        //servidor smtp
+        $mail->Mailer = 'smtp';
+
+        //Asignamos a Host el nombre de nuestro servidor smtp
+        $mail->Host = 'mail.nyshu.com.mx';
+
+        //Le indicamos que el servidor smtp requiere autenticación
+        $mail->SMTPAuth = true;
+
+        //Le decimos cual es nuestro nombre de usuario y password
+        $mail->Username = 'contacto@nyshu.com.mx';
+        $mail->Password = 'PASSWORD';
+
+        //Indicamos cual es nuestra dirección de correo y el nombre que
+        //queremos que vea el usuario que lee nuestro correo
+        $mail->From = $_POST['email'];
+        $mail->FromName = $_POST['name'];
+        //el valor por defecto 10 de Timeout es un poco escaso dado que voy a usar
+        //una cuenta gratuita, por tanto lo pongo a 30
+        $mail->Timeout=30;
+
+        //Indicamos cual es la dirección de destino del correo
+        $mail->AddAddress('contacto@theshelters.com.mx','The Shelters');
+
+        //Asignamos asunto y cuerpo del mensaje
+        //El cuerpo del mensaje lo ponemos en formato html, haciendo
+        //que se vea en negrita
+        $mail->Subject = 'Nuevo Mensaje para Nyshu';
+        $mail->Body = ' Número teñefónico: '.isset($_POST['comments'])?$_POST['comments']:'';
+        $mail->Body .= ' Comentario: '.$_POST['comments'];
+        //Definimos AltBody por si el destinatario del correo no admite email con formato html
+
+
+        //se envia el mensaje, si no ha habido problemas
+        //la variable $exito tendra el valor true
+        $exito = $mail->Send();
+
+        //Si el mensaje no ha podido ser enviado se realizaran 4 intentos mas como mucho
+        //para intentar enviar el mensaje, cada intento se hara 5 segundos despues
+        //del anterior, para ello se usa la funcion sleep
+        $intentos=1;
+        while ((!$exito) && ($intentos < 5)) {
+            sleep(5);
+            //echo $mail->ErrorInfo;
+            $exito = $mail->Send();
+            $intentos=$intentos+1;
+
+        }
+
+        if(!$exito){
+            echo "<!DOCTYPE html>
+            <html lang='en'>
+            <head>
+              <meta http-equiv='Content-Type' content='text/html; charset=UTF-8''/>
+              <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no'/>
+              <title>Nyshu Pasteles</title>
+
+              <!-- CSS  -->
+              <link href='css/materialize.css' type='text/css' rel='stylesheet' media='screen,projection'/>
+              <link href='css/style.css' type='text/css' rel='stylesheet' media='screen,projection'/>
+            </head>
+            <body>
+
+              <nav class='purple' role='navigation'>
+                <div class='nav-wrapper container'>
+                  <a id='logo-container' href='http://nyshu.com.mx' class='brand-logo'><img src='img/navbar/Logo.jpg' alt='Logo img'></a>
+                  <ul class='right hide-on-med-and-down'>
+                      <li><a href='products.html'>Productos</a></li>
+                      <li><a href='services.html'>Servicios</a></li>
+                      <li><a href='aboutUs.html'>Nosotros</a></li>
+                      <li><a href='contacts.phtml'>Contacto</a></li>
+                  </ul>
+
+                  <ul id='nav-mobile' class='side-nav'>
+                      <li><a href='products.html'>Productos</a></li>
+                      <li><a href='services.html'>Servicios</a></li>
+                      <li><a href='aboutUs.html'>Nosotros</a></li>
+                      <li><a href='contacts.phtml'>Contacto</a></li>
+                  </ul>
+                  <a href='#' data-activates='nav-mobile' class='button-collapse'><i class='mdi-navigation-menu'></i></a>
+                </div>
+              </nav>
+
+              <div class='container'>
+                  <div class='center-align' style='font-weight: bold; color: #a94442;'>
+                      <i class='large mdi-content-report'></i>
+                      <p>Error al intentar enviar el correo!</p>
+                      <p>$mail->ErrorInfo</p>
+                  </div>
+              </div>
+
+              <footer class='page-footer'>
+                <div class='container'>
+                  <div class='row'>
+                    <div class='col l3 s12'>
+                      <div><img src='img/footer/LogoFooter.jpg' alt='Nyshu img'></div>
+                    </div>
+                    <div class='col l4 s12 offset-l1'>
+                      <h5 class='grey-text'>Contáctanos</h5>
+                      <br>
+                      <i class='Tiny mdi-communication-location-on grey-text'> </i>
+                      <span class='grey-text text-lighten-2'> Av siempre viva sur #456 Col. Anime, Jalisco México. C.P. 45555.</span>
+                    <br>
+                      <i class='Tiny mdi-communication-email grey-text'> </i>
+                      <span class='grey-text text-lighten-2'> contacto@nyshu.com</span>
+                      <br>
+                      <i class='Tiny mdi-communication-call grey-text'> </i>
+                      <span class='grey-text text-lighten-2'> 01(33)33333333</span>
+                    </div>
+                    <div class='col l3 s12 offset-l1'>
+                      <h5 class='grey-text'>Síguenos</h5>
+                        <br>
+                        <a class='grey-text text-lighten-2' href='http://facebook.com'><img src='img/footer/fbCircle50.png' alt='Nyshu img'></a>
+                        <a class='grey-text text-lighten-2' href='http://youtube.com'><img src='img/footer/youCircle50.png' alt='Nyshu img'></a>
+                        <br>
+                        <a class='grey-text text-lighten-2' href='http://plus.google.com'><img src='img/footer/gplusCircle50.png' alt='Nyshu img'></a>
+                        <a class='grey-text text-lighten-2' href='http://twitter.com'><img src='img/footer/twCircle50.png' alt='Nyshu img'></a>
+                    </div>
+                  </div>
+                </div>
+                <div class='footer-copyright'>
+                  <div class='container'>
+                      &copy; Copyright 2015 - <a class='purple-text text-lighten-2' href='http://nyshu.com.mx'>Nyshu</a> - Todos los derechos reservados.
+                  </div>
+                </div>
+              </footer>
+
+
+              <!--  Scripts-->
+              <script src='js/jquery-2.1.1.min.js'></script>
+              <script src='js/materialize.js'></script>
+              <script src='js/init.js'></script>
+
+              </body>
+            </html>";
+        }else{
+            header('Location: emailOk.html');
+        }
+
+
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <title>Nyshu Pasteles</title>
+
+    <!-- CSS  -->
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+</head>
+<body>
+
+<nav class="purple" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="http://nyshu.com.mx" class="brand-logo"><img src="img/navbar/Logo.jpg" alt="Logo img"></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="products.html">Productos</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="aboutUs.html">Nosotros</a></li>
+            <li><a href="contacts.phtml">Contacto</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+            <li><a href="products.html">Productos</a></li>
+            <li><a href="services.html">Servicios</a></li>
+            <li><a href="aboutUs.html">Nosotros</a></li>
+            <li><a href="contacts.phtml">Contacto</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+    </div>
+</nav>
+
+<div class="container">
+    <br>
+    <br>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3732.876373805066!2d-103.355631!3d20.674608000000003!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b1fce3244caf%3A0xc6bdc239b8c8d1fa!2sJuarez!5e0!3m2!1ses!2smx!4v1426455837200" width="100%" height="250" frameborder="0" style="border:0"></iframe>
+    <div class="center-align" style="font-weight: bold;">
+        <br>
+        <span>Av. Juarez 500 Col. Americana, Guadalajara Jalisco, México</span>
+    </div>
+    <div class="section">
+        <h4>Contáctanos</h4>
+        <hr class="grey-text lighten-5">
+        <!--   Form Section   -->
+        <div class="row">
+            <form class="col s12" action="contacts.phtml" method="POST">
+                <div class="row">
+                    <div class="input-field col s6" <?php echo !empty($prospectNameError)?"style='color:#a94442;'":'';?>>
+                        <i class="mdi-action-account-circle prefix"></i>
+                        <input name='name' id="icon_prefix" type="text" class="validate">
+                        <label for="icon_prefix">Nombre Completo</label>
+                        <?php if (!empty($prospectNameError)): ?>
+                            <span class="text-danger"><?php echo $prospectNameError;?></span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="input-field col s6"  <?php echo !empty($prospectEmailError)?"style='color:#a94442;'":'';?>>
+                        <i class="mdi-communication-email prefix"></i>
+                        <input name='email' id="icon_email" type="tel" class="validate">
+                        <label for="icon_email">Email</label>
+                        <?php if (!empty($prospectEmailError)): ?>
+                            <span class="text-danger"><?php echo $prospectEmailError;?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="mdi-communication-call prefix"></i>
+                        <input name='phone' id="icon_telephone" type="text" class="validate">
+                        <label for="icon_telephone">Teléfono</label>
+                    </div>
+                    <div class="input-field col s6" <?php echo !empty($prospectCommentError)?"style='color:#a94442;'":'';?>>
+                        <i class="mdi-communication-comment prefix"></i>
+                        <input name='comment' id="icon_message" type="tel" class="validate">
+                        <label for="icon_message">Comentarios</label>
+                        <?php if (!empty($prospectCommentError)): ?>
+                            <span class="text-danger"><?php echo $prospectCommentError;?></span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <button href="emailEnviado.html" class="btn waves-effect waves-light" type="submit" name="action">Contactar
+                    <i class="mdi-content-send right"></i>
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l3 s12">
+                <div><img src="img/footer/LogoFooter.jpg" alt="Nyshu img"></div>
+            </div>
+            <div class="col l4 s12 offset-l1">
+                <h5 class="grey-text">Contáctanos</h5>
+                <br>
+                <i class="Tiny mdi-communication-location-on grey-text"> </i>
+                <span class="grey-text text-lighten-2"> Av siempre viva sur #456 Col. Anime, Jalisco México. C.P. 45555.</span>
+                <br>
+                <i class="Tiny mdi-communication-email grey-text"> </i>
+                <span class="grey-text text-lighten-2"> contacto@nyshu.com</span>
+                <br>
+                <i class="Tiny mdi-communication-call grey-text"> </i>
+                <span class="grey-text text-lighten-2"> 01(33)33333333</span>
+            </div>
+            <div class="col l3 s12 offset-l1">
+                <h5 class="grey-text">Síguenos</h5>
+                <br>
+                <a class="grey-text text-lighten-2" href="https://www.facebook.com/pages/Nyshu/449515308527770?fref=photo"><img src="img/footer/fbCircle50.png" alt="Nyshu img"></a>
+                <a class="grey-text text-lighten-2" href="http://youtube.com"><img src="img/footer/youCircle50.png" alt="Nyshu img"></a>
+                <br>
+                <a class="grey-text text-lighten-2" href="http://plus.google.com"><img src="img/footer/gplusCircle50.png" alt="Nyshu img"></a>
+                <a class="grey-text text-lighten-2" href="https://twitter.com/nyshunyshu"><img src="img/footer/twCircle50.png" alt="Nyshu img"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            &copy; Copyright 2015 - <a class="purple-text text-lighten-2" href="http://nyshu.com.mx">Nyshu</a> - Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
+
+
+<!--  Scripts-->
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/materialize.js"></script>
+<script src="js/init.js"></script>
+
+</body>
+</html>

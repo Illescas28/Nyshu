@@ -1,0 +1,37 @@
+<?php
+$title = 'Nuevo categoría';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+$form = $this->categoriaForm;
+$form->setAttribute('action', $this->url('panel-categoria', array('action' => 'nuevo')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="row">
+    <div class="input-field col s6">
+        <i class="mdi-social-cake prefix"></i>
+        <?php  echo $this->formText($form->get('category_name')); ?>
+        <?php  echo $this->formLabel($form->get('category_name'));
+        $showError=$this->formElementErrors($form->get('category_name'));
+        if(!empty($showError)):
+            ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $showError;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+</div>
+<div class="input-field col s6">
+    <?php  echo $this->formButton($form->get('submit')); ?>
+</div>
+<?php
+//echo $this->formCollection($form);
+echo $this->form()->closeTag(); ?>

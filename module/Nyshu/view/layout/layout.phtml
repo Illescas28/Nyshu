@@ -1,0 +1,89 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle($this->translate('Nyshu - Pasteles'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <!--Let browser know website is optimized for mobile-->
+    <?php echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, media=screen,projection')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <!--Import materialize.css-->
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        ->prependStylesheet($this->basePath('css/style.css'))
+        ->prependStylesheet($this->basePath('css/materialize.css'))
+    ; ?>
+    <!-- Scripts -->
+    <?php echo $this->headScript()
+        ->prependFile($this->basePath('js/materialize.js'))
+        ->prependFile($this->basePath('js/init.js'))
+        ->prependFile($this->basePath('js/jquery-2.1.1.min.js'))
+    ; ?>
+
+</head>
+<body>
+<nav class="purple" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="http://nyshu.com.mx" class="brand-logo"><img src="<?php echo $this->basePath('img/navbar/Logo.jpg') ?>" alt="Logo img"></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="<?php echo $this->url('website-productos') ?>">&nbsp;<?php echo $this->translate('Productos') ?></a></li>
+            <li><a href="<?php //echo $this->url('website-servicios') ?>">&nbsp;<?php echo $this->translate('Servicios') ?></a></li>
+            <li><a href="<?php //echo $this->url('website-nosotros') ?>">&nbsp;<?php echo $this->translate('Nosotros') ?></a></li>
+            <li><a href="<?php echo $this->url('website-contacto') ?>">&nbsp;<?php echo $this->translate('Contacto') ?></a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+            <li><a href="<?php echo $this->url('website-productos') ?>">&nbsp;<?php echo $this->translate('Productos') ?></a></li>
+            <li><a href="<?php //echo $this->url('website-servicios') ?>">&nbsp;<?php echo $this->translate('Servicios') ?></a></li>
+            <li><a href="<?php //echo $this->url('website-nosotros') ?>">&nbsp;<?php echo $this->translate('Nosotros') ?></a></li>
+            <li><a href="<?php echo $this->url('website-contacto') ?>">&nbsp;<?php echo $this->translate('Contacto') ?></a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+    </div>
+</nav>
+
+<div>
+    <?php echo $this->content; ?>
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l3 s12">
+                    <div><img src="<?php echo $this->basePath('img/footer/LogoFooter.jpg') ?>" alt="Nyshu img"></div>
+                </div>
+                <div class="col l4 s12 offset-l1">
+                    <h5 class="grey-text">Contáctanos</h5>
+                    <br>
+                    <i class="Tiny mdi-communication-location-on grey-text"> </i>
+                    <span class="grey-text text-lighten-2"> Av siempre viva sur #456 Col. Anime, Jalisco México. C.P. 45555.</span>
+                    <br>
+                    <i class="Tiny mdi-communication-email grey-text"> </i>
+                    <span class="grey-text text-lighten-2"> contacto@nyshu.com</span>
+                    <br>
+                    <i class="Tiny mdi-communication-call grey-text"> </i>
+                    <span class="grey-text text-lighten-2"> 01(33)33333333</span>
+                </div>
+                <div class="col l3 s12 offset-l1">
+                    <h5 class="grey-text">Síguenos</h5>
+                    <br>
+                    <a class="grey-text text-lighten-2" href="https://www.facebook.com/pages/Nyshu/449515308527770?fref=photo"><img src="<?php echo $this->basePath('img/footer/fbCircle50.png') ?>" alt="FB img"></a>
+                    <a class="grey-text text-lighten-2" href="http://youtube.com"><img src="<?php echo $this->basePath('img/footer/youCircle50.png') ?>" alt="YouTube img"></a>
+                    <br>
+                    <a class="grey-text text-lighten-2" href="http://plus.google.com"><img src="<?php echo $this->basePath('img/footer/gplusCircle50.png') ?>" alt="Goggle+ img"></a>
+                    <a class="grey-text text-lighten-2" href="https://twitter.com/nyshunyshu"><img src="<?php echo $this->basePath('img/footer/twCircle50.png') ?>" alt="Nyshu img"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; Copyright 2015 - - <?php echo date('Y') ?> by<a class="purple-text text-lighten-2" href="http://nyshu.com.mx"> Nyshu</a> - <?php echo $this->translate('All rights reserved.') ?>
+            </div>
+        </div>
+    </footer>
+</div> <!-- /container -->
+<?php echo $this->inlineScript() ?>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<div class="container">
+    <br>
+    <br>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3732.876373805066!2d-103.355631!3d20.674608000000003!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b1fce3244caf%3A0xc6bdc239b8c8d1fa!2sJuarez!5e0!3m2!1ses!2smx!4v1426455837200" width="100%" height="400" frameborder="0" style="border:0"></iframe>
+    <div class="center-align" style="font-weight: bold;">
+        <p>Av. Juarez 500 Col. Americana, Guadalajara Jalisco, México</p>
+    </div>
+    <div class="section">
+        <h4>Contáctanos</h4>
+        <hr class="grey-text lighten-5">
+        <!--   Form Section   -->
+        <?php
+        // Si el contacto fue guardado en nuestra base de datos.
+        if($this->send):?>
+            <div class="center-align col1" style="color: #47D598">
+                <i class="mdi-toggle-check-box"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #47D598">
+                <?php echo "Gracias por contactarnos!. En breve nos pondremos en contacto con ud."; ?>
+            </div>
+        <?php  endif;
+
+        $form = $this->contactForm;
+            $form->setAttribute('action', $this->url('website-contacto', array('action' => 'index')));
+            $form->prepare();
+
+            echo $this->form()->openTag($form);
+            ?>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="mdi-action-account-circle prefix"></i>
+                    <?php  echo $this->formText($form->get('contact_name')); ?>
+                    <?php  echo $this->formLabel($form->get('contact_name'));
+                    $showError=$this->formElementErrors($form->get('contact_name'));
+                    if(!empty($showError)):
+                        ?>
+                        <div class="center-align col" style="color: #e57373">
+                            <i class="mdi-content-report prefix"></i>
+                        </div>
+                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                            <?php
+                            echo $showError;
+                            ?>
+                        </div>
+                    <?php  endif;?>
+                </div>
+                <div class="input-field col s6">
+                    <i class="mdi-communication-email prefix"></i>
+                    <?php  echo $this->formEmail($form->get('contact_email')); ?>
+                    <?php  echo $this->formLabel($form->get('contact_email'));
+                    $showError=$this->formElementErrors($form->get('contact_email'));
+                    if(!empty($showError)):
+                        ?>
+                        <div class="center-align col" style="color: #e57373">
+                            <i class="mdi-content-report prefix"></i>
+                        </div>
+                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                            <?php
+                            echo $showError;
+                            ?>
+                        </div>
+                    <?php  endif;?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <i class="mdi-communication-call prefix"></i>
+                    <?php  echo $this->formText($form->get('contact_phone')); ?>
+                    <?php  echo $this->formLabel($form->get('contact_phone'));
+                    $showError=$this->formElementErrors($form->get('contact_phone'));
+                    if(!empty($showError)):
+                    ?>
+                    <div class="center-align col" style="color: #e57373">
+                        <i class="mdi-content-report prefix"></i>
+                    </div>
+                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                        <?php
+                        echo $showError;
+                        ?>
+                    </div>
+                    <?php  endif;?>
+                </div>
+                <div class="input-field col s6">
+                    <i class="mdi-communication-comment prefix"></i>
+                    <?php  echo $this->formText($form->get('contact_message')); ?>
+                    <?php  echo $this->formLabel($form->get('contact_message'));
+                    $showError=$this->formElementErrors($form->get('contact_message'));
+                    if(!empty($showError)):
+                        ?>
+                        <div class="center-align col" style="color: #e57373">
+                            <i class="mdi-content-report prefix"></i>
+                        </div>
+                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                            <?php
+                            echo $showError;
+                            ?>
+                        </div>
+                    <?php  endif;?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <?php  echo $this->formCaptcha($form->get('validator')); ?>
+                    </div>
+                <div class="input-field col s6">
+                    <?php
+                    $showError=$this->formElementErrors($form->get('validator'));
+                    if(!empty($showError)):
+                        ?>
+                        <div class="center-align col" style="color: #e57373">
+                            <i class="mdi-content-report prefix"></i>
+                        </div>
+                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                            <?php
+                            echo $showError;
+                            ?>
+                        </div>
+                    <?php  endif;?>
+                </div>
+            </div>
+            <div class="input-field col s6">
+                <?php  echo $this->formButton($form->get('submit')); ?>
+            </div>
+            <?php
+            //echo $this->formCollection($form);
+            echo $this->form()->closeTag(); ?>
+
+        </div>
+    </div>
+</div>

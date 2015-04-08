@@ -1,0 +1,30 @@
+<?php
+$title = 'Editar fotos del producto';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$productoFotoForm->setAttribute('action', $this->url(
+    'panel-producto-foto',
+    array(
+        'action' => 'editar',
+        'id'     => $this->id,
+    )
+));
+$productoFotoForm->prepare();
+
+echo $this->form()->openTag($productoFotoForm);
+echo $this->form()->openTag($productoFotoForm);
+echo $this->formHidden($productoFotoForm->get('idproductphoto'));
+echo $this->formRow($productoFotoForm->get('idproduct'));
+echo $this->formRow($productoFotoForm->get('productphoto_img'));
+echo $this->formSubmit($productoFotoForm->get('submit'));
+//echo $this->formCollection($ArticuloForm);
+echo $this->form()->closeTag();
+?>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>

@@ -13,54 +13,23 @@ CREATE TABLE `category`
 (
     `idcategory` INTEGER NOT NULL AUTO_INCREMENT,
     `category_name` VARCHAR(255) NOT NULL,
-    `category_dependency` INTEGER,
-    PRIMARY KEY (`idcategory`),
-    INDEX `category_dependency` (`category_dependency`),
-    CONSTRAINT `category_dependency_category`
-        FOREIGN KEY (`category_dependency`)
-        REFERENCES `category` (`idcategory`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+    PRIMARY KEY (`idcategory`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- material
+-- contact
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `material`;
+DROP TABLE IF EXISTS `contact`;
 
-CREATE TABLE `material`
+CREATE TABLE `contact`
 (
-    `idmaterial` INTEGER NOT NULL AUTO_INCREMENT,
-    `idproduct` INTEGER NOT NULL,
-    `material_name` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`idmaterial`),
-    INDEX `idproduct` (`idproduct`),
-    CONSTRAINT `idproduct_material`
-        FOREIGN KEY (`idproduct`)
-        REFERENCES `product` (`idproduct`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- materialcolor
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `materialcolor`;
-
-CREATE TABLE `materialcolor`
-(
-    `idmaterialcolor` INTEGER NOT NULL AUTO_INCREMENT,
-    `idmaterial` INTEGER NOT NULL,
-    `materialcolor_name` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`idmaterialcolor`),
-    INDEX `idmaterial` (`idmaterial`),
-    CONSTRAINT `idmaterial_materialcolor`
-        FOREIGN KEY (`idmaterial`)
-        REFERENCES `material` (`idmaterial`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+    `idcontact` INTEGER NOT NULL AUTO_INCREMENT,
+    `contact_name` VARCHAR(45) NOT NULL,
+    `contact_email` VARCHAR(45) NOT NULL,
+    `contact_phone` VARCHAR(45),
+    `contact_message` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`idcontact`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -76,9 +45,8 @@ CREATE TABLE `product`
     `product_name` VARCHAR(255) NOT NULL,
     `product_description` VARCHAR(45) NOT NULL,
     `product_price` DECIMAL(10,2) NOT NULL,
-    `product_long` VARCHAR(255),
-    `product_high` VARCHAR(255),
-    `product_depth` VARCHAR(255),
+    `product_long` DECIMAL(10,2),
+    `product_high` DECIMAL(10,2),
     PRIMARY KEY (`idproduct`),
     INDEX `idcategory` (`idcategory`),
     CONSTRAINT `idcategory_product`
@@ -98,36 +66,10 @@ CREATE TABLE `productphoto`
 (
     `idproductphoto` INTEGER NOT NULL AUTO_INCREMENT,
     `idproduct` INTEGER NOT NULL,
-    `productphoto_name` VARCHAR(255) NOT NULL,
-    `productphoto_url` VARCHAR(255) NOT NULL,
+    `productphoto_img` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`idproductphoto`),
     INDEX `idproduct` (`idproduct`),
     CONSTRAINT `idproduct_productphoto`
-        FOREIGN KEY (`idproduct`)
-        REFERENCES `product` (`idproduct`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- productquestion
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `productquestion`;
-
-CREATE TABLE `productquestion`
-(
-    `idproductquestion` INTEGER NOT NULL AUTO_INCREMENT,
-    `idproduct` INTEGER NOT NULL,
-    `productquestion_requester_name` VARCHAR(255) NOT NULL,
-    `productquestion_requester_email` VARCHAR(255) NOT NULL,
-    `productquestion_requester_message` VARCHAR(255) NOT NULL,
-    `productquestion_requester_date` DATETIME NOT NULL,
-    `productquestion_reply` VARCHAR(45),
-    `productquestion_reply_date` DATETIME,
-    PRIMARY KEY (`idproductquestion`),
-    INDEX `idproduct` (`idproduct`),
-    CONSTRAINT `idproduct_productquestion`
         FOREIGN KEY (`idproduct`)
         REFERENCES `product` (`idproduct`)
         ON UPDATE CASCADE

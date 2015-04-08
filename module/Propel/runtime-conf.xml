@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <propel>
-        <datasources default="muebleria">
-            <datasource id="muebleria">
+        <datasources default="nyshu">
+            <datasource id="nyshu">
                 <adapter>mysql</adapter> <!-- sqlite, mysql, myssql, oracle, or pgsql -->
                 <connection>
-                    <dsn>mysql:host=10.10.10.2;dbname=muebleria</dsn>
+                    <dsn>mysql:host=nyshu.com.mx;dbname=nyshu</dsn>
                     <user>root</user>
-                    <password>muebleria</password>
+                    <password>mysql</password>
                 </connection>
             </datasource>
         </datasources>
